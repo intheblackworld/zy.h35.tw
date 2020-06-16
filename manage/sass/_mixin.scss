@@ -1,0 +1,553 @@
+// Mixins Global
+// ------------------
+@mixin _prefix($prop, $values, $vendors, $pos: prop) {
+    @each $prefix in $vendors {
+        @if $pos == prop {
+            #{$prefix}#{$prop}: $values;
+        } @else if $pos == value {
+            #{$prop}: #{$prefix}#{$values};
+        }
+    }
+}
+
+@mixin align($direction: h, $value: left) {
+    @if $direction == h {
+        text-align: $value
+    } @else if $direction == v {
+        vertical-align: $value;
+    }
+}
+
+@mixin visible($bool: true) {
+    @if $bool == true {
+        visibility: visible !important;
+    } @else if $bool == false {
+        visibility: hidden !important;
+    }
+}
+
+@mixin pull($direction: left){
+    @if $direction == left {
+        float: left;
+    } @else if $direction == right {
+        float: right;
+    }
+}
+
+@mixin placeholder-color($color) {
+    &::-webkit-input-placeholder {color: $color;}
+    &::-moz-placeholder {color: $color;}
+    &:-moz-placeholder {color: $color;}
+    &:-ms-input-placeholder {color: $color;}
+}
+// ------------------
+
+
+
+// Box
+// ------------------
+@mixin center-block {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@mixin center-both {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    @include transform(translate(-50.1%, -50.1%));
+}
+
+@mixin size($width, $height: $width) {
+    width: $width;
+    height: $height;
+}
+
+@mixin max-size($width, $height: $width) {
+    max-width: $width;
+    max-height: $height;
+}
+
+@mixin min-size($width, $height: $width) {
+    min-width: $width;
+    min-height: $height;
+}
+
+@mixin width-range($min, $max) {
+    min-width: $min;
+    max-width: $max;
+}
+
+@mixin circle($size) {
+    @include size($size);
+    @include border-radius(50%);
+}
+
+@mixin paddings($top: 0, $right: $top, $bottom: $top, $left: $right) {
+    @if ($top != null and $right != null and $bottom != null and $left != null) {
+        $v: if($top == $bottom, true, false);
+        $h: if($left == $right, true, false);
+
+        @if ($v and $h and $top == $right) {
+            padding: $top;
+        }
+        @else if ($v and $h) {
+            padding: $top $right;
+        }
+        @else if (not $v and $h) {
+            padding: $top $right $bottom;
+        }
+        @else {
+            padding: $top $right $bottom $left;
+        }
+    }
+    @else {
+        @if ($top != null) {
+            padding-top: $top;
+        }
+
+        @if ($right != null) {
+            padding-right: $right;
+        }
+
+        @if ($bottom != null) {
+            padding-bottom: $bottom;
+        }
+
+        @if ($left != null) {
+            padding-left: $left;
+        }
+    }
+}
+
+@mixin margins($top: 0, $right: $top, $bottom: $top, $left: $right) {
+    @if ($top != null and $right != null and $bottom != null and $left != null) {
+        $v: if($top == $bottom, true, false);
+        $h: if($left == $right, true, false);
+
+        @if ($v and $h and $top == $right) {
+            margin: $top;
+        }
+        @else if ($v and $h) {
+            margin: $top $right;
+        }
+        @else if (not $v and $h) {
+            margin: $top $right $bottom;
+        }
+        @else {
+            margin: $top $right $bottom $left;
+        }
+    }
+    @else {
+        @if ($top != null) {
+            margin-top: $top;
+        }
+
+        @if ($right != null) {
+            margin-right: $right;
+        }
+
+        @if ($bottom != null) {
+            margin-bottom: $bottom;
+        }
+
+        @if ($left != null) {
+            margin-left: $left;
+        }
+    }
+}
+// ------------------
+
+
+
+// Typography
+// ------------------
+@mixin selection($text-color: $white, $background-color: $primary) {
+    @at-root {
+        #{&}::-moz-selection {
+            color: $text-color;
+            background-color: $background-color;
+            @content;
+        }
+
+        #{&}::selection {
+            color: $text-color;
+            background-color: $background-color;
+            @content;
+        }
+    }
+}
+
+@mixin font-by-language($lang: en) {
+    $langs: (en, zh, ja, ko);
+
+    @if index($langs, $lang) {
+        @at-root {
+            #{&}:lang(#{$lang}) {
+
+            }
+        }
+    }
+}
+
+@mixin hide-text {
+    overflow: hidden;
+    border: none;
+    font: 0/0 a;
+    text-shadow: none;
+    color: transparent;
+    background-color: transparent;
+}
+
+@mixin text-truncate {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+@mixin font-smoothing {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+// ------------------
+
+
+//Breakpoints
+// ------------------
+@mixin bp($bp: xs) {
+    @if ($bp == xs) {
+        @media (max-width: $screen-xs-max) {
+            @content;
+        }
+    } @else {
+        @media (min-width: map-get($breakpoints, $bp)) {
+            @content;
+        }
+    }
+}
+
+@mixin bp-xs {
+    @include bp(xs) {
+        @content;
+    };
+}
+
+@mixin bp-sm {
+    @include bp(sm) {
+        @content;
+    };
+}
+
+@mixin bp-md {
+    @include bp(md) {
+        @content;
+    };
+}
+
+@mixin bp-lg {
+    @media (min-width: map-get($breakpoints, 'lg')) {
+        @content;
+    }
+}
+
+@mixin bp-xl {
+    @include bp(xl) {
+        @content;
+    };
+}
+// ------------------
+
+
+
+// Background
+// ------------------
+@mixin full-background-image($position: center, $sizing: cover, $color: black(.05)) {
+    background: {
+        repeat: no-repeat;
+        position: $position;
+        color: $color;
+        size: $sizing;
+    };
+}
+
+@mixin responsive-image($height: percentage(9/16), $position: center, $sizing: cover, $color: black(.05)) {
+    padding-top: $height;
+    @include fullBgImage($position, $sizing, $color);
+}
+// ------------------
+
+
+
+
+// Border Radius
+// ------------------
+@mixin border-top-radius($value: 0) {
+    border-top-left-radius: $value;
+    border-top-right-radius: $value;
+}
+
+@mixin border-bottom-radius($value: 0) {
+    border-bottom-left-radius: $value;
+    border-bottom-right-radius: $value;
+}
+
+@mixin border-left-radius($value: 0) {
+    border-top-left-radius: $value;
+    border-bottom-left-radius: $value;
+}
+
+@mixin border-right-radius($value: 0) {
+    border-top-right-radius: $value;
+    border-bottom-right-radius: $value;
+}
+
+@mixin border-backslash-radius($value: 0) {
+    border-top-left-radius: $value;
+    border-bottom-right-radius: $value;
+}
+
+@mixin border-slash-radius($value: 0) {
+    border-top-right-radius: $value;
+    border-bottom-left-radius: $value;
+}
+// ------------------
+
+
+
+// Status
+// ------------------
+@mixin hover {
+    &:hover,
+    &.is\:hover {
+        @content;
+    }
+}
+
+@mixin focus {
+    &:focus,
+    &.is\:focus {
+        @content;
+    }
+}
+
+@mixin focus\:hover {
+    &:focus,
+    &.is\:focus,
+    &:focus:hover,
+    &.is\:focus:hover {
+        @content;
+    }
+}
+
+@mixin active {
+    &:active,
+    &.is\:on {
+        @content;
+    }
+}
+
+@mixin active\:hover {
+    &:active,
+    &.is\:on,
+    &:active:hover,
+    &.is\:on:hover {
+        @content;
+    }
+}
+
+@mixin hover-focus {
+    &:hover,
+    &:focus,
+    &.is\:focus {
+        @content;
+    }
+}
+
+@mixin hover-focus\:hover {
+    &:hover,
+    &:focus,
+    &.is\:focus,
+    &:focus:hover,
+    &.is\:focus:hover {
+        @content;
+    }
+}
+
+@mixin hover-active {
+    &:hover,
+    &:active,
+    &.is\:on {
+        @content;
+    }
+}
+
+@mixin hover-active\:hover {
+    &:hover,
+    &:active,
+    &.is\:on,
+    &:active:hover,
+    &.is\:on:hover {
+        @content;
+    }
+}
+
+@mixin focus-active {
+    &:focus,
+    &.is\:focus,
+    &:active,
+    &.is\:on {
+        @content;
+    }
+}
+
+@mixin hover-focus-active {
+    &:hover,
+    &:focus,
+    &.is\:focus,
+    &:active,
+    &.is\:on {
+        @content;
+    }
+}
+// ------------------
+
+
+
+// Others
+// ------------------
+@mixin opacity($opacity) {
+    $opacity-ie: $opacity * 100;
+    filter: alpha(opacity=$opacity-ie);
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=#{$opacity-ie})";
+    opacity: $opacity;
+}
+
+@mixin resize($value) {
+    resize: $value;
+    overflow: auto;
+}
+
+@mixin text-glow($color: light, $extend: true, $opacity: $opacity-lv5) {
+    @if ($extend == true) {
+        @extend %text-glow-#{$color};
+    } @else {
+        text-shadow: 0 0 remy(6) rgba($color, $opacity);
+    }
+}
+
+@mixin position($method: absolute, $top: 0, $left: 0, $bottom: null, $right: null) {
+    position: $method;
+    top: if($bottom != null, auto, $top);
+    left: if($right != null, auto, $left);
+
+    @if ($bottom != null) {
+        bottom: $bottom;
+    }
+
+    @if ($right != null) {
+        right: $right;
+    }
+}
+
+@mixin first($t: false, $r: false, $b: false, $l: false) {
+    &:first-child {
+        @if $t {
+            margin-top: 0;
+        }
+
+        @if $r {
+            margin-right: 0;
+        }
+
+        @if $b {
+            margin-bottom: 0;
+        }
+
+        @if $l {
+            margin-left: 0;
+        }
+
+        @content;
+    }
+}
+
+@mixin last($t: false, $r: false, $b: false, $l: false) {
+    &:last-child {
+        @if $t {
+            margin-top: 0;
+        }
+
+        @if $r {
+            margin-right: 0;
+        }
+
+        @if $b {
+            margin-bottom: 0;
+        }
+
+        @if $l {
+            margin-left: 0;
+        }
+
+        @content;
+    }
+}
+
+@mixin only {
+    &:only-child {
+        @content;
+    }
+}
+
+@mixin before {
+    &:before {
+        @content;
+    }
+}
+
+@mixin after {
+    &:after {
+        @content;
+    }
+}
+
+@mixin before-after {
+    &:before,
+    &:after {
+        @content;
+    }
+}
+
+@mixin empty {
+    &:empty {
+        @content;
+    }
+}
+
+@mixin head-tail-clear($direction: ttb) {
+    @if $direction == ttb {
+        @include first($t: true);
+        @include last($b: true);
+    }
+    @else if btt {
+        @include first($b: true);
+        @include last($t: true);
+    }
+    @else if ltr {
+        @include first($l: true);
+        @include last($r: true);
+    }
+    @else if rtl {
+        @include first($r: true);
+        @include last($l: true);
+    }
+}
+
+@mixin nth($eq: 1) {
+    &:nth-child(#{$eq}) {
+        @content;
+    }
+}
+// ------------------

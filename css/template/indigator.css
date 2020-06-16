@@ -1,0 +1,50 @@
+.indigator {
+  position: fixed;
+  right: 10px;
+  top: 40%;
+  transform: translateY(-50%);
+  z-index: 510;
+}
+
+.list-indigator {
+  position: relative;
+  padding: 8px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 20px;
+}
+
+.dot {
+  width: 16px;
+  height: 16px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  background: transparent;
+  cursor: pointer;
+  border: 1px solid #fff;
+  display: block;
+  border-radius: 999px;
+}
+
+.dot.active {
+  background: #fff;
+}
+
+/* .dot.click-active {
+  background: #fff;
+} */
+
+.contact-indigator {
+  background: rgba(0, 0, 0, 0.4);
+  margin: 10px auto;
+  padding: 8px;
+  color: #ffd200;
+  border-radius: 20px;
+  cursor: pointer;
+  line-height: 1.5;
+  width: 32px;
+  display: block;
+}
+
+html {
+  scroll-behavior: smooth;
+}

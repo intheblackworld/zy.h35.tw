@@ -1,0 +1,431 @@
+// Math
+// ------------------
+$_pi: 3.14159265359;
+$_precision: 10;
+
+@function pow($number, $exponent: 2) {
+    $value: 1;
+
+    @if $exponent > 0 {
+        @for $i from 1 through $exponent {
+            $value: $value * $number;
+        }
+    } @else if $exponent < 0 {
+        @for $i from 1 through -$exponent {
+            $value: $value / $number;
+        }
+    }
+
+    @return $value;
+}
+
+@function fabs($x) {
+    @if $x > 0 {
+        @return $x;
+    }
+    @else {
+        @return $x * -1;
+    }
+}
+
+@function sqrt($x) {
+    $ans: $x;
+    $del: 0.00001;
+    $pre: 0;
+
+    @while fabs($ans - $pre) >= $del {
+        $pre: $ans;
+        $ans: ($ans + $x / $ans) / 2;
+    }
+
+    @return $ans;
+}
+
+@function fact($num) {
+    $fact: 1;
+    @if $num > 0 {
+        @for $i from 1 through $num {
+            $fact: $fact * $i;
+        }
+    }
+    @return $fact;
+}
+
+@function to-unitless-rad($angle) {
+    @if unit($angle) == "deg" {
+        $angle: $angle / 180deg * $pi;
+    }
+    @if unit($angle) == "rad" {
+        $angle: $angle / 1rad;
+    }
+
+    @return $angle;
+}
+
+@function sin($angle) {
+    $a: to-unitless-rad($angle);
+    $sin: $a;
+    @for $n from 1 through $_precision {
+        $sin: $sin + (pow(-1, $n) / fact(2 * $n + 1)) * pow($a, (2 * $n + 1));
+    }
+    @return $sin;
+}
+
+@function cos($angle) {
+    $a: to-unitless-rad($angle);
+    $cos: 1;
+    @for $n from 1 through $_precision {
+        $cos: $cos + ( pow(-1, $n) / fact(2*$n)) * pow($a, 2*$n);
+    }
+    @return $cos;
+}
+
+@function tan($angle) {
+    @return sin($angle) / cos($angle);
+}
+
+@function average($num: 1, $amount: 1) {
+    @return $num * (1 / $amount);
+}
+
+// String operations
+// ------------------
+@function str-replace($string, $findStr, $newStr: '') {
+    $index: str-index($string, $findStr);
+
+    @if $index {
+        @return str-slice($string, 1, $index - 1)+$newStr+str-replace(str-slice($string, $index + str-length($findStr)), $findStr, $newStr);
+    }
+
+    @return $string;
+}
+
+// String operations
+// ------------------
+@function strip-unit($number) {
+    @if type-of($number)=='number' and not unitless($number) {
+        @return $number / ($number * 0 + 1);
+    }
+
+    @return $number;
+}
+
+@function str-pad($str, $len, $symbol) {
+    $str: inspect($str);
+    $strLen: str-length($str);
+
+    @if $strLen < $len {
+        @return $symbol + $str;
+    } @else {
+        @return $str;
+    }
+}
+
+// Convert
+// ------------------
+@function to-string($value) {
+    @return inspect($value);
+}
+
+@function to-bool($value) {
+    @return not ($value or $value=="" or $value==0);
+}
+
+@function to-list($args...) {
+    @return append((), $args);
+}
+
+//Colors
+// ------------------
+@function black($opacity) {
+    @return rgba($black, $opacity);
+}
+
+@function white($opacity) {
+    @return rgba($white, $opacity);
+}
+
+@function gray($opacity, $gray: $gray-50) {
+    @return rgba($gray, $opacity);
+}
+
+@function primary($opacity) {
+    @return rgba($primary, $opacity);
+}
+
+@function secondary($opacity) {
+    @return rgba($secondary, $opacity);
+}
+
+// Valids
+// ------------------
+@function is-color($color) {
+    @return (type-of($color)==color) or ($color=="currentColor");
+}
+
+// Units
+// ------------------
+@function convert($value: 1rem, $convertUnit: px, $convertBase: $font-size) {
+    $currentUnit: unit($value);
+    $currentNumber: strip-unit($value) * 1;
+    $pointRatio: 1.33333;
+
+    $convertBaseUnit: unitless($convertBase);
+
+    @if $currentUnit != $convertUnit {
+        @if not unitless($convertBase) {
+            @if unit($convertBase) != px {
+                @error "convertBase not supported, please use pixel or int";
+            }
+
+            $convertBase: strip-unit($convertBase) * 1;
+        }
+
+        @if $currentUnit == px or str-length($currentUnit) == 0 {
+            @if $convertUnit == em or $convertUnit == rem {
+                @return ($currentNumber / $convertBase) + $convertUnit;
+            }
+            @else if $convertUnit == pt {
+                @return floor($currentNumber / $pointRatio) + $convertUnit;
+            }
+            @else if $convertUnit == '%' {
+                @return percentage($currentNumber / $convertBase);
+            }
+            @else if $convertUnit == px {
+                @return $currentNumber * 1px;
+            }
+            @else if $convertUnit == int {
+                @return $currentNumber;
+            }
+        }
+        @else if $currentUnit == em or $currentUnit == rem {
+            $pixelValue: $currentNumber * $convertBase;
+
+            @if $convertUnit == px {
+                @return $pixelValue + $convertUnit;
+            }
+            @else if $convertUnit == pt {
+                @return floor($pixelValue / $pointRatio) + $convertUnit;
+            }
+            @else if $convertUnit == '%' {
+                @return percentage($pixelValue / $convertBase);
+            }
+            @else if $convertUnit == int {
+                @return $pixelValue;
+            }
+        }
+        @else if $currentUnit == '%' {
+            $percent2Num: $currentNumber / 100;
+            $percent2Int: $percent2Num * $convertBase;
+
+            @if $convertUnit == px {
+                @return $percent2Int + $convertUnit;
+            }
+            @else if $convertUnit == em or $convertUnit == rem {
+                @return $percent2Num + $convertUnit;
+            }
+            @else if $convertUnit == pt {
+                @return floor($percent2Int / $pointRatio) + $convertUnit;
+            }
+            @else if $convertUnit == int {
+                @return $percent2Int;
+            }
+        }
+        @else if $currentUnit == 'pt' {
+            $point2Number: ceil($currentNumber * $pointRatio);
+
+            @if $convertUnit == px {
+                @return $point2Number + $convertUnit;
+            }
+            @else if $convertUnit == em or $convertUnit == rem {
+                @return ($point2Number / $convertBase) + $convertUnit;
+            }
+            @else if $convertUnit == '%' {
+                @return percentage($point2Number / $convertBase);
+            }
+            @else if $convertUnit == int {
+                @return $point2Number;
+            }
+        }
+        @else {
+            @error "Can`t covert '#{$value}' to unit";
+        }
+    }
+    @else {
+        @return $value;
+    }
+}
+
+@function vw($width, $outerWidth) {
+    @return $width / $outerWidth * 100vw;
+}
+
+@function vh($height, $outerHeight) {
+    @return $height / $outerHeight * 100vh;
+}
+
+@function unit-replace($value, $unit: rem) {
+    @return strip-unit($value) + $unit;
+}
+
+@function remy($value, $font-size: $font-size) {
+    @return convert($value, rem, $font-size);
+}
+
+@function emy($value, $font-size: $font-size) {
+    @return convert($value, em, $font-size);
+}
+
+@function numy($value, $base: $font-size) {
+    @return convert($value, int, $base);
+}
+
+// Get Text Color By Another
+// ------------------
+@function text-color-by-colours($color, $dark: black($opacity-lv1), $light: $white) {
+    $grayscale: grayscale($color);
+    $saturation: saturation($color);
+    $lightness: lightness($grayscale);
+    $grayscale-saturation-limit: 87%;
+
+    @if $saturation > $grayscale-saturation-limit {
+        @if ($lightness >= 55%) {
+            @return $dark;
+        } @else {
+            @return $light;
+        }
+    } @else {
+        @if ($lightness >= 65%) {
+            @return $dark;
+        } @else {
+            @return $light;
+        }
+    }
+}
+
+@function box-text-color($color, $dark: null, $light: $white, $dark-alpha: $opacity-lv1, $light-alpha: $opacity-lv1) {
+    $grayscale: grayscale($color);
+    $hue: hue($color);
+    $saturation: saturation($color);
+    $lightness: lightness($grayscale);
+    $saturation-limit: 92.6%;
+    $mix: rgba(darken(mix($gray-80, $color), 15%), $opacity-lv1);
+    $light: rgba($light, $light-alpha);
+
+    @if $dark {
+        $mix: rgba($dark, $dark-alpha);
+        $dark: rgba($dark, $dark-alpha);
+    }
+
+    $result: $light;
+
+    @if $hue > 36deg and $hue < 198deg {
+
+        @if $lightness >= 50.99% {
+            $result: $mix;
+        }
+
+        @if $hue > 49deg and
+            $hue < 70deg and
+            $lightness >= 50% and
+            $saturation > 50% {
+
+            $result: $mix;
+
+        }
+
+        @if $hue > 70deg and
+            $hue < 150deg and
+            $lightness > 45% and
+            $saturation >30% {
+
+            $result: rgba($mix, .75);
+
+        }
+
+        @if $hue > 98deg and
+            $hue < 178deg and
+            $lightness < 60% and
+            $saturation < 42.4% {
+
+            $result: $light;
+
+        }
+
+    } @else {
+
+        @if ($lightness >= 77.49%) {
+            $result: $mix;
+        }
+
+    }
+
+    @if $lightness >= 92% {
+        $result: rgba($gray-80, $dark-alpha);
+
+        @if $dark {
+            $result: $dark;
+        }
+    }
+
+    $return: (
+        'color': $color,
+        'hue': $hue,
+        'saturation': $saturation,
+        'lightness': $lightness,
+        'grayscale': $grayscale,
+        'result': $result
+    );
+
+    @return $return;
+}
+
+// Box Module
+/*
+    $h: height,
+    $lh: line-height,
+    $bw: border-width,
+    $fs: font-size
+*/
+
+@function get-box-vertical-padding($h: 40, $fs: $font-size, $bw: 1, $lh: 1.5) {
+    $h: convert($h, int);
+    $lh: if(unitless($lh), convert(($lh * $fs), int), convert($lh, int));
+    $bw: convert($bw, int);
+    $fs: convert($fs, int);
+    $p: ($h - $lh - ($bw * 2)) / 2;
+
+    @return convert($p, rem);
+}
+
+// SVG to data/image
+@function svg-encode($svg) {
+    @if not str-index($svg, ' xmlns="http://www.w3.org/2000/svg"') {
+        $svg: str-insert($svg, ' xmlns="http://www.w3.org/2000/svg"', 5);
+    }
+
+    $encode: (
+        '"': "%22",
+        "#": "%23",
+        "%": "%25",
+        "<": "%3C",
+        ">": "%3E",
+        "{": "%7B",
+        "}": "%7D",
+    );
+
+    $string: "";
+    $character: "";
+
+    @for $i from 1 through str-length($svg) {
+        $character: str-slice($svg, $i, $i);
+
+        @if index(map-keys($encode), $character) {
+            $character: map-get($encode, $character);
+        }
+
+        $string: $string + $character;
+    }
+
+    @return url("data:image/svg+xml,#{$string}");
+}

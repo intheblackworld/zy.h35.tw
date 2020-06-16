@@ -1,0 +1,98 @@
+.house-info {
+  width: 100vw;
+  background: #444;
+}
+.content {
+  width: 686px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.title {
+  font-size: 36px;
+  line-height: 36px;
+  margin: 80px 0 40px;
+  font-family: 'Noto Serif TC', serif;
+  font-weight: bold;
+  color: #006bb4;
+}
+.info {
+  display: flex;
+  flex-wrap: wrap;
+}
+.item {
+  font-size: 16px;
+  margin-bottom: 40px;
+  margin-right: 160px;
+  width: 260px;
+  border-left: 4px solid #006bb4;
+  padding-left: 12px;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+.item:nth-of-type(even) {
+  margin-right: 0;
+}
+.item .label {
+  font-size: 16px;
+  color: #006bb4;
+  margin-bottom: 0;
+  margin-right: 20px;
+  white-space: nowrap;
+}
+.item .desc {
+  font-size: 16px;
+  color: #fff;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+/* 螢幕尺寸標準 */
+/* 手機尺寸 */
+@media only screen and (max-width: 767px) {
+  .content {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  .title {
+    font-size: 30px;
+    margin: 10px 0 15px;
+  }
+  .item {
+    margin-bottom: 7px;
+    margin-right: 0;
+    width: 100%;
+    margin-left: 20px;
+    white-space: normal;
+  }
+  .info {
+    width: 100%;
+  }
+
+  .item .label {
+    font-size: 14px;
+  }
+  .item .desc {
+    font-size: 14px;
+  }
+}
+/* 平板尺寸 */
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+  .content {
+    width: 686px;
+  }
+  .title {
+    font-size: 32px;
+    margin: 40px 0 24px;
+  }
+  .item {
+    margin-bottom: 20px;
+  }
+}
+
+
+#app {
+  background: #292929;
+}

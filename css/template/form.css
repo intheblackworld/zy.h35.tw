@@ -1,0 +1,108 @@
+.el-select {
+  margin-left: 21px;
+}
+.form-control {
+  width: 310px !important;
+  min-width: 310px !important;
+  height: 42px !important;
+  line-height: 42px !important;
+  font-size: 16px !important;
+  border-radius: 0 !important;
+  border: solid 1px rgba(255, 255, 255, 0.4) !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: rgb(177, 177, 177);
+}
+.form-control:focus {
+  border: solid 1px #409eff !important;
+}
+.el-select-dropdown__item.selected {
+  color: solid 1px #409eff !important;
+}
+select#selectarea,
+select#selectcity {
+  padding: 0 18px !important;
+  color: rgb(177, 177, 177);
+}
+
+select#selectarea option {
+  background: red;
+  box-shadow: inset 0 0 999px 0 red;
+}
+
+textarea.form-control {
+  width: 420px !important;
+  height: 100% !important;
+  height: 100% !important;
+  border-radius: 0 !important;
+  color: #fff !important;
+  padding-top: 10px !important;
+  font-size: 16px !important;
+  border: solid 1px rgba(255, 255, 255, 0.4) !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+.el-checkbox__label p {
+  font-size: 14px;
+  color: #fff !important;
+}
+.el-checkbox__label span {
+  color: #006BB4 !important;
+  text-decoration: underline;
+}
+.form-submit {
+  width: 320px !important;
+  height: 72px !important;
+  border-radius: 0 !important;
+  font-size: 20px !important;
+  background-color: #006BB4 !important;
+  margin: 0 auto !important;
+  margin-top: 20px !important;
+  transition: all 0.3s !important;
+  color: #fff;
+  border: none !important;
+}
+.form-submit.is-disabled {
+  background-color: #E0E1E2 !important;
+}
+.form-submit svg {
+  margin-right: 15px;
+}
+/* 螢幕尺寸標準 */
+/* 手機尺寸 */
+@media only screen and (max-width: 767px) {
+  .form-control {
+    width: 100% !important;
+    height: 38px !important;
+    line-height: 38px !important;
+    min-width: auto !important;
+  }
+  textarea.form-control {
+    width: 100% !important;
+    height: 80px !important;
+  }
+  select#selectarea,
+  select#selectcity {
+    margin-left: 0;
+    width: 100%;
+  }
+  
+  .checkbox {
+    margin-top: 0;
+    white-space: nowrap;
+  }
+  .checkbox label {
+    padding-left: 28px !important;
+    line-height: 20px !important;
+  }
+  .form-submit {
+    width: 90% !important;
+    margin-top: 10px !important;
+    font-size: 16px !important;
+    height: 52px !important;
+    margin: 0 auto !important;
+  }
+
+  .privacy-announce {
+    font-size: 12px;
+    padding-top: 5px;
+  }
+}

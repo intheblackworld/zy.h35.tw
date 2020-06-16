@@ -1,0 +1,141 @@
+@import 'variables';
+@import 'function';
+@import 'mixin';
+
+[v-cloak] {
+	display: none;
+}
+
+body {
+	background-color: $gray-03;
+}
+
+.btn-link {
+	color: inherit !important;
+}
+
+.inner {
+	width: 100%;
+	max-width: remy(1200);
+	margin: auto;
+}
+
+.container-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.header {
+	position: sticky;
+	top: 0;
+	left: 0;
+	z-index: 1000;
+	width: 100%;
+	padding: remy(10) remy($font-size);
+	background: $white;
+	box-shadow: 0 remy(4) remy(24) remy(-2) black($opacity-lv7);
+
+	> .inner {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+}
+
+.wrap {
+	padding: remy(40) 0 remy(120);
+}
+
+.menu {
+	display: flex;
+	color: $dark;
+	font-size: remy($font-size-sm);
+
+	&_item {
+		padding: remy(6) remy(8);
+		margin: 0 remy(4);
+		border: 1px solid transparent;
+		border-radius: remy($radius-sm);
+		transition: 0.24s ease;
+
+		&[href] {
+			color: inherit;
+		}
+
+		@include hover {
+			border-color: black($opacity-lv8);
+			background: black($opacity-lv9);
+		}
+	}
+}
+
+.footer {
+	padding: 1rem;
+	font-size: 0.75rem;
+	text-align: center;
+	opacity: 0.38;
+	color: inherit;
+
+	a {
+		color: inherit;
+	}
+}
+
+.login {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 1;
+	@include size(100%);
+	padding: remy(20);
+}
+
+form {
+	width: 100%;
+}
+
+.notice {
+	position: fixed;
+	z-index: 100;
+	bottom: 0;
+	right: remy($font-size);
+	width: 75%;
+	max-width: remy($font-size * 16);
+	padding: remy(6) remy(12);
+	border-radius: remy($radius-base) remy($radius-base) 0 0;
+	pointer-events: none;
+	cursor: default;
+	background: $white;
+	box-shadow: 0 convert(2) convert(5) black($opacity-lv7);
+	font-size: $font-size-sm;
+	opacity: 0;
+	transition: 0.36s ease;
+	transition-property: opacity;
+	will-change: opacity;
+
+	&.is\:on {
+		opacity: 1;
+	}
+
+	&.is\:success {
+		color: $white;
+		background: $success;
+	}
+
+	&.is\:danger {
+		color: $white;
+		background: $danger;
+	}
+}
+
+#app {
+	opacity: 0;
+
+	body.loaded & {
+		opacity: 1;
+	}
+}

@@ -1,5 +1,5 @@
 <?php
-	$case_name = "正義聯盟";
+    $case_name = "正義聯盟";
     $case_code = 'zy';
 
     $name         = isset($_POST['name']) ? $_POST['name'] : '';
@@ -299,7 +299,7 @@
 <script src="js/jquery.js"></script>
 
 <script type="text/javascript">
-document.location.replace('thank.php');
+document.location.replace('formThanks');
 </script>
 </body>
 </html>

@@ -13,6 +13,13 @@
     $utm_content  = isset($_POST['utm_content']) ? $_POST['utm_content'] : '';
     $utm_campaign = isset($_POST['utm_campaign']) ? $_POST['utm_campaign'] : '';
     $datetime     = date ("Y-m-d H:i:s" , mktime(date('H'), date('i'), date('s'), date('m'), date('d'), date('Y'))) ;
+    
+    # 鳳翔 fs 客製資料：房型
+    $house        = isset($_POST['house']) ? $_POST['house'] : '';
+    
+    # 好站 hj 客製資料：可聯絡時間
+    $time_start        = isset($_POST['time_start']) ? $_POST['time_start'] : '';
+    $time_end        = isset($_POST['time_end']) ? $_POST['time_end'] : '';
 
     # 不同版本前端相容 Start
     if ($name == '') {
@@ -231,7 +238,11 @@
     $mail->FromName = $case_name." - 官網網站"; //設定寄件者姓名
 
     $mail->Subject = $case_name." - 官網網站"; //設定郵件標題
-    $mail->Body = "網站：https://".$case_code.".h35.tw/<BR>姓名：".$name."<BR>電話：".$phone."<BR>信箱：".$user_email."<BR>城市：".$city.$area."<BR>留言：".$msg."<BR><BR>填表日期：".$datetime."<BR>廣告來源：".$utm_source."<BR>廣告媒介：".$utm_medium."<BR>廣告名稱：".$utm_campaign."<BR>廣告內容：".$utm_content; //設定郵件內容
+    //這個是沒可聯絡時間的
+    $mail->Body = "網站：https://".$case_code.".h35.tw/<BR>姓名：".$name."<BR>電話：".$phone."<BR>城市：".$city.$area."<BR>留言：".$msg."<BR><BR>填表日期：".$datetime."<BR>廣告來源：".$utm_source."<BR>廣告媒介：".$utm_medium."<BR>廣告名稱：".$utm_campaign."<BR>廣告內容：".$utm_content; //設定郵件內容
+    
+    //有聯絡時間的先隱藏
+    //$mail->Body = "網站：https://".$case_code.".h35.tw/<BR>姓名：".$name."<BR>電話：".$phone."<BR>城市：".$city.$area."<BR>留言：".$msg."<BR>可聯絡時間：".$time_start."-".$time_end."<BR><BR>填表日期：".$datetime."<BR>廣告來源：".$utm_source."<BR>廣告媒介：".$utm_medium."<BR>廣告名稱：".$utm_campaign."<BR>廣告內容：".$utm_content; //設定郵件內容
     $mail->IsHTML(true); //設定郵件內容為HTML
 
     $tomail_arr = explode(",",$tomail);
@@ -242,7 +253,7 @@
 
 	    # 添加到 Googlde 資料DB Start
         try {
-            $url = "http://35.221.147.147/send.php";
+            $url = "http://104.155.235.216/send.php";
             $url .= "?token=".$token;
             $url .= "&name=".$name;
             $url .= "&phone=".$phone;
@@ -299,7 +310,166 @@
 <script src="js/jquery.js"></script>
 
 <script type="text/javascript">
-document.location.replace('formThanks');
+document.location.replace('thank.php');
 </script>
 </body>
 </html>
+<?php
+    # PDO DB 連線 Start
+    $pdo=new pdo('mysql:host=localhost;dbname=htw_web','htw','748aSgl5Ni');
+    $pdo->exec("SET NAMES 'utf8'");
+    # PDO DB 連線 End
+
+    $bCheck = true; //信件檢查
+
+    # 取得 IP Start
+    if (!empty($_SERVER["HTTP_CLIENT_IP"])){
+        $sIp = $_SERVER["HTTP_CLIENT_IP"];
+    } else if (!empty($_SERVER["HTTP_X_FORWARDED_FOR"])){
+        $sIp = $_SERVER["HTTP_X_FORWARDED_FOR"];
+    } else {
+        $sIp = $_SERVER["REMOTE_ADDR"];
+    }
+    # 取得 IP End
+
+    # 檢查是否時間範圍內重複留言 Start
+    $sCheckMsg = ''; //檢查留言內容
+
+    if ($_POST['msg'] == '') {
+        $_POST['msg'] = '無留言';
+    }
+
+    if (($_COOKIE['msg'] != null) && ($_POST['msg'] != null)) {
+        $sCheckMsg = $_COOKIE['msg'];
+        setcookie ("msg", $_POST['msg'], time()+36400);
+    } else {
+        setcookie ("msg", $_POST['msg'], time()+36400);
+    }
+
+
+    if (($sCheckMsg === $_POST['msg'])) { //要三個等號, 不然 null 會等於 empty
+        $bCheck = false;
+    }
+    # 檢查是否時間範圍內重複留言 End
+
+    # 檢查所有關鍵字 Start
+    $sql = "SELECT * FROM `block_message`";
+    $aGetDbList = $pdo->query($sql)->fetchAll();
+
+    $aFilterKeyWordList = array(); //留言關鍵字檢查初始化
+    $aFilterNameList = array(); //檢查姓名初始化
+    $aFilterEmailList = array();
+    $aFilterPhoneList = array();
+    $aFilterIpList = array();
+
+    foreach ($aGetDbList as $sKey => $aGetDb) {
+
+        switch ($aGetDb['type']) { //switch Start
+            case '1': //留言內容
+                $aFilterKeyWordList[] = $aGetDb['content'];
+                break;
+            case '2': //用戶名稱
+                $aFilterNameList[] = $aGetDb['content'];
+                break;
+            case '3': //信箱
+                $aFilterEmailList[] = $aGetDb['content'];
+                break;
+            case '4':
+                $aFilterPhoneList[] = $aGetDb['content'];
+                break;
+            case '5':
+                $aFilterIpList[] = $aGetDb['content'];
+                break;
+            default:
+                # code...
+                break;
+        } //swutch End
+
+    }
+    # 檢查所有關鍵字 End
+
+    # 檢查留言關鍵字 Start
+    // $aFilterKeyWordList = array('game', 'casino', '測試', 'test');
+    $checkConunt = 0;
+    foreach ($aFilterKeyWordList as $key => $sFilterKeyWord) {
+        $checkConunt = explode($sFilterKeyWord, $_POST['msg']);
+        if (count($checkConunt) > 1) {
+            $bCheck = false;
+        }
+    }
+    # 檢查留言關鍵字 End
+
+    # 檢查姓名 Start
+    // $aFilterNameList = array('蔡銘聰');
+    $checkConunt = 0;
+    foreach ($aFilterNameList as $key => $sFilterName) {
+        $checkConunt = explode($sFilterName, $_POST['name']);
+        if (count($checkConunt) > 1) {
+            $bCheck = false;
+        }
+    }
+    # 檢查姓名 End
+
+    # 檢查信箱 Start
+    $checkConunt = 0;
+    foreach ($aFilterEmailList as $key => $aFilterValue) {
+        $checkConunt = explode($aFilterValue, $_POST['email']);
+        if (count($checkConunt) > 1) {
+            $bCheck = false;
+        }
+    }
+    # 檢查信箱 End
+
+    # 檢查電話 Start
+    $checkConunt = 0;
+    foreach ($aFilterPhoneList as $key => $aFilterValue) {
+        $checkConunt = explode($aFilterValue, $_POST['phone']);
+        if (count($checkConunt) > 1) {
+            $bCheck = false;
+        }
+    }
+    # 檢查電話 End
+
+    # 檢查IP Start
+    $checkConunt = 0;
+    foreach ($aFilterIpList as $key => $aFilterValue) {
+        $checkConunt = explode($aFilterValue, $sIp);
+        if (count($checkConunt) > 1) {
+            $bCheck = false;
+        }
+    }
+    # 檢查IP End
+
+    $db_host = 'localhost';
+    $db_user = 'htw';
+    $db_pass = '748aSgl5Ni';
+    $db_name = 'htw_web';
+
+    $con = mysql_connect($db_host, $db_user, $db_pass);
+    mysql_query("SET NAMES UTF8");
+    mysql_select_db($db_name, $con);
+
+    $query = "SELECT tomail FROM susers WHERE email = '".$case_code."'";
+    $result = mysql_query($query, $con);
+    $row = mysql_fetch_row($result);
+
+    if (mysql_num_rows($result))
+    {
+        $tomail = $row[0];
+    }
+
+    $query_admin = "SELECT admin_email FROM admin WHERE email = 'admin'";
+    $result_admin = mysql_query($query_admin, $con);
+    $row_admin = mysql_fetch_row($result_admin);
+
+    if (mysql_num_rows($result_admin))
+    {
+        $tomail_admin = $row_admin[0];
+    }
+?>
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+</head>
+<body>

@@ -272,7 +272,7 @@ var vm = new Vue({
 
 			videos: {
 				active: 0,
-				items: [{ videoId: 'QYa1IPINq-c' }]
+				items: [{ videoId: 'l6izDSvzCtc' }]
 			},
 
 			leaflets: {

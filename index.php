@@ -31,11 +31,12 @@ if ($TryStrpos === false) {
 
 <head>
     <?php
-    include_once 'incl/meta.php';
+    include_once './head.php';
     // $city = $_POST['widget-contact-form-city'];
     // $area = $_POST['widget-contact-form-area'];
     ?>
-    <title><?= _SITENAME_; ?></title>
+    <!-- <title><?= _SITENAME_; ?></title> -->
+    
 
     <!-- house info -->
     <link href="css/template/contact-section.css?v1" rel="stylesheet" />

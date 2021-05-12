@@ -2,13 +2,13 @@
 #下3段式抓 為案件編號 $case_code
 #$case_code_test 是用來判斷是否為1的測試頁
 #$case_code = "jw";特殊案使用
-$src = $_SERVER['SERVER_NAME'];
-$case_code_test = substr(substr($src, 0, strpos($src, '.')), -1);
-$case_code = substr($src, 0, strpos($src, $case_code_test == '1' ? '1' : '.'));
+$src =$_SERVER['SERVER_NAME']; 
+$case_code_test = substr(substr($src,0,strpos($src,'.')),-1);
+$case_code = substr($src,0,strpos($src,$case_code_test=='1'?'1':$case_code_test=='5'?'-':'.'));
 
 # PDO DB 連線 Start
-$pdo = new pdo('mysql:host=localhost;dbname=htw_web', 'htw', '748aSgl5Ni');
-$pdo->exec("SET NAMES 'utf8'");
+    $pdo=new pdo('mysql:host=localhost;dbname=htw_web','htw','748aSgl5Ni');
+    $pdo->exec("SET NAMES 'utf8'");
 # PDO DB 連線 End
 
 # 下3段 抓$case_name 這樣就不會打錯案名了
@@ -251,7 +251,7 @@ $mail->From = "noreply@h35.tw"; //設定寄件者信箱
 $mail->FromName = $case_name . " - 官網網站"; //設定寄件者姓名
 
 $mail->Subject = $case_name . " - 官網網站"; //設定郵件標題
-$mail->Body = "網站：https://" . $case_code . ".h35.tw/<BR>姓名：" . $name . "<BR>電話：" . $phone . "<BR>信箱：" . $user_email . "<BR>城市：" . $city . $area . "<BR>留言：" . $msg . "<BR>可聯絡時間：" . $time_start . "-" . $time_end . "<BR><BR>填表日期：" . $datetime . "<BR>廣告來源：" . $utm_source . "<BR>廣告媒介：" . $utm_medium . "<BR>廣告名稱：" . $utm_campaign . "<BR>廣告內容：" . $utm_content; //設定郵件內容
+$mail->Body = "網站：https://" . $src . "/<BR>姓名：" . $name . "<BR>電話：" . $phone . "<BR>信箱：" . $user_email . "<BR>城市：" . $city . $area . "<BR>留言：" . $msg . "<BR>可聯絡時間：" . $time_start . "-" . $time_end . "<BR><BR>填表日期：" . $datetime . "<BR>廣告來源：" . $utm_source . "<BR>廣告媒介：" . $utm_medium . "<BR>廣告名稱：" . $utm_campaign . "<BR>廣告內容：" . $utm_content; //設定郵件內容
 $mail->IsHTML(true); //設定郵件內容為HTML
 
 $tomail_arr = explode(",", $tomail);
@@ -320,7 +320,7 @@ if ($bCheck == true) { //if start
     <script src="js/jquery.js"></script>
 
     <script type="text/javascript">
-        document.location.replace('formThanks');
+        document.location.replace('thank.php');
     </script>
 </body>
 

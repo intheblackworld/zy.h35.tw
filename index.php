@@ -30,6 +30,8 @@ if ($TryStrpos === false) {
 <html lang="<?= _LANG_; ?>" itemscope itemtype="http://schema.org/WebSite" xmlns:og="http://ogp.me/ns#" xmlns:fb="https://www.facebook.com/2008/fbml">
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <?php
     include_once './head.php';
     // $city = $_POST['widget-contact-form-city'];

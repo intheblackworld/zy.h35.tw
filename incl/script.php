@@ -2,6 +2,5 @@
 <?php
 echo "\t\t"; getUpdatedHtmlTag(['js/jquery-3.4.0.min.js', 'js/jquery-3.4.0.js']);
 echo "\t\t"; getUpdatedHtmlTag(['js/vue.min.js', 'js/vue.js']);
-echo "\t\t"; getUpdatedHtmlTag(['js/main.js', 'js/main.js']);
 echo "\n";
 ?>

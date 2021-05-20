@@ -1246,7 +1246,7 @@ $(window)
 		mobileFullHeight()
 		// 啟用滾軸與手勢, modal 開的時候
 		// setJsMousewheel();
-		setJsTouch()
+		// setJsTouch()
 		setJsKeyup()
 		preventIphoneScale()
 

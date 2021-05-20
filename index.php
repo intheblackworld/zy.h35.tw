@@ -104,8 +104,14 @@ if ($TryStrpos === false) {
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WN5W6J2" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
+    <?php
+    echo "\t\t";
+    getUpdatedHtmlTag(['js/jquery-3.4.0.min.js', 'js/jquery-3.4.0.js']);
+    echo "\t\t";
+    getUpdatedHtmlTag(['js/vue.min.js', 'js/vue.js']);
+    echo "\n";
+    ?>
     <div id="app">
-
         <header class="header">
             <div class="header_logo">
                 <a href="#kv" @click="setPage('dot-1')"><img src="img/logo.png" alt="正義聯盟 | 七大逆天神力，給你成家超能力"></a>
@@ -171,12 +177,6 @@ if ($TryStrpos === false) {
             </div>
             <a :class="`contact-indigator`" href="#section-p9">預約賞屋</a>
         </div>
-        <!-- <div class="reservation" v-if="!isMobile" @click="setPageTransform('p8')">
-            <a class="reservation_link js-reservation">
-                預約賞屋
-            </a>
-        </div> -->
-
         <div class="reservation" v-if="isMobile" @click="switchStatus('footer', !status.footer)">
             <a class="reservation_link js-reservation" href="#section-p9">
                 預約賞屋
@@ -497,29 +497,41 @@ if ($TryStrpos === false) {
                                     <div class="group">
                                         <div class="row">
                                             <label><span style="color: red">*</span> 姓名</label>
-                                            <input id="name" type="text" aria-required="true" name="widget-contact-form-name" class="form-control required name" placeholder="" />
+                                            <label style="width: 100% !important;">
+                                                <input id="name" type="text" aria-required="true" name="widget-contact-form-name" class="form-control required name" placeholder="" />
+                                            </label>
                                         </div>
                                         <div class="row">
                                             <label><span style="color: red">*</span> 手機</label>
-                                            <input id="phone" type="text" name="widget-contact-form-phone" class="form-control required" placeholder="" />
+                                            <label style="width: 100% !important;">
+                                                <input id="phone" type="text" name="widget-contact-form-phone" class="form-control required" placeholder="" />
+                                            </label>
                                         </div>
                                         <div class="row">
                                             <label>E-mail</label>
-                                            <input id="email" type="email" aria-required="true" name="widget-contact-form-email" class="form-control email" placeholder="" />
+                                            <label style="width: 100% !important;">
+                                                <input id="email" type="email" aria-required="true" name="widget-contact-form-email" class="form-control email" placeholder="" />
+                                            </label>
                                         </div>
                                         <div class="row">
                                             <label>居住城市</label>
-                                            <select id="selectcity" name="widget-contact-form-city" class="form-control" style="height:56px;"></select>
+                                            <label style="width: 100% !important;">
+                                                <select id="selectcity" name="widget-contact-form-city" class="form-control" style="height:56px;"></select>
+                                            </label>
                                         </div>
                                         <div class="row">
                                             <label>居住地區</label>
-                                            <select id="selectarea" name="widget-contact-form-area" class="form-control" style="height:56px;"></select>
-                                            </el-select>
+                                            <label style="width: 100% !important;">
+                                                <select id="selectarea" name="widget-contact-form-area" class="form-control" style="height:56px;"></select>
+                                                </el-select>
+                                            </label>
                                         </div>
                                     </div>
                                     <div class="group">
                                         <div class="row">
-                                            <textarea type="text" class="form-control" id="widget-contact-form-antispam" name="widget-contact-form-msg" placeholder="輸入您的留言"></textarea>
+                                            <label style="width: 100% !important;height: 100% !important;">
+                                                <textarea type="text" class="form-control" id="widget-contact-form-antispam" name="widget-contact-form-msg" placeholder="輸入您的留言"></textarea>
+                                            </label>
                                             <input type="hidden" id="utm_source" value="<?= $_GET['utm_source'] ?>" name="utm_source">
                                             <input type="hidden" id="utm_medium" value="<?= $_GET['utm_medium'] ?>" name="utm_medium">
                                             <input type="hidden" id="utm_content" value="<?= $_GET['utm_content'] ?>" name="utm_content">
@@ -527,14 +539,15 @@ if ($TryStrpos === false) {
                                         </div>
                                     </div>
                                 </form>
-                                <div class="control" style="text-align: center;">
-                                    <input type="checkbox" id="checkbox_form" class="messageCheckbox privacy-checkbox form-check-input" style="width: 17px;height: 17px;">
-                                    <span class="privacy-announce">本人知悉並同意<a @click="switchStatus('agreementModal', true)"><span>『個資告知事項聲明』</span></a>內容</span>
-                                    <div style="color:#f00 !important;" id="msgerror" class="m-b-10"></div>
+                                <div class="control" style="text-align: center;z-index:2;position: relative">
+                                    <span>
+                                        <input type="checkbox" id="checkbox_form" class="messageCheckbox privacy-checkbox form-check-input" style="width: 17px;height: 17px;">
+                                        <span class="privacy-announce">本人知悉並同意<a @click="switchStatus('agreementModal', true)"><span>『個資告知事項聲明』</span></a>內容</span>
+                                        <div style="color:#f00 !important;" id="msgerror" class="m-b-10"></div>
+                                    </span>
                                 </div>
-                                <script src="https://www.google.com/recaptcha/api.js" async defer></script>
                                 <div class="g-recaptcha" style="width: 304px;margin: 0 auto;z-index:2;" data-sitekey="6Lep-78UAAAAAMaZLtddpvpixEb8cqu7v7758gLz"></div>
-                                <a href="javascript:SendScore();" class="form-submit" id="form-submit" style="display: flex;justify-content: center;align-items: center;">
+                                <a href="javascript:SendScore();" class="form-submit" id="form-submit" style="display: flex;justify-content: center;align-items: center;z-index:2;position: relative">
                                     立即預約
                                 </a>
                             </div>
@@ -542,39 +555,27 @@ if ($TryStrpos === false) {
                         <div class="contact-info section section-contact" id="section-p10">
                             <img class="logo" src="css/template/logo.png" alt />
                             <div class="info">
-                                <div class="btn flex-c" @click="showCallDialog()">
+                                <div class="btn flex-c" @click="showCallDialog">
                                     <span class="flex-c">
                                         <i class="fa fa-phone"></i>
                                         02-2293-1666
                                     </span>
                                 </div>
-                                <a class="btn flex-c hidden-xs" href="https://m.me/2066330633489731" target="_blank" @click="window.dotq = window.dotq || [];
-
-window.dotq.push(
-
-{
-
-  'projectId': '10000',
-
-  'properties': {
-
-    'pixelId': '10084299',
-
-    'qstrings': {
-
-      'et': 'custom',
-
-      'ea': 'FB10084299'
-
-    }
-
-} } );
-">
+                                <a class="btn flex-c hidden-xs" href="https://m.me/2066330633489731" target="_blank" @click="window.dotq = window.dotq || [];window.dotq.push({
+                                    'projectId': '10000',
+                                    'properties': {
+                                        'pixelId': '10084299',
+                                        'qstrings': {
+                                            'et': 'custom',
+                                            'ea': 'FB10084299'
+                                        }
+                                    }
+                                });">
                                     <span class="flex-c">
                                         <i class="fab fa-facebook-messenger"></i>FB Messenger 諮詢
                                     </span>
                                 </a>
-                                <div class="btn flex-c visible-xs" @click="showMessengerDialog()">
+                                <div class="btn flex-c visible-xs" @click="showMessengerDialog">
                                     <span class="flex-c">
                                         <i class="fab fa-facebook-messenger"></i>FB Messenger 諮詢
                                     </span>
@@ -585,32 +586,21 @@ window.dotq.push(
                                     </span>
                                 </a>
                                 <div class="address flex-c">新北市五股區新五路二段558號旁</div>
-                                <a class="google-btn flex-c hidden-xs" href="https://goo.gl/maps/md3qUjA8GZr4WwGK6" target="_blank" @click="window.dotq = window.dotq || [];
-
-window.dotq.push(
-
-{
-
-  'projectId': '10000',
-
-  'properties': {
-
-    'pixelId': '10084299',
-
-    'qstrings': {
-
-      'et': 'custom',
-
-      'ea': 'map10084299'
-
-    }
-
-} } );">
+                                <a class="google-btn flex-c hidden-xs" href="https://goo.gl/maps/md3qUjA8GZr4WwGK6" target="_blank" @click="window.dotq = window.dotq || [];window.dotq.push({
+                                    'projectId': '10000',
+                                    'properties': {
+                                        'pixelId': '10084299',
+                                        'qstrings': {
+                                            'et': 'custom',
+                                            'ea': 'map10084299'
+                                        }
+                                    }
+                                });">
                                     <span class="flex-c">
                                         <i class="fab fa-facebook-messenger"></i>導航 Google 地圖
                                     </span>
                                 </a>
-                                <div class="google-btn flex-c visible-xs" @click="showMapDialog()">
+                                <div class="google-btn flex-c visible-xs" @click="showMapDialog">
                                     <span class="flex-c">
                                         <i class="fas fa-map-marker-alt"></i>導航 Google 地圖
                                     </span>
@@ -631,14 +621,6 @@ window.dotq.push(
                     <img src="./img/footerLogo.png?v1" alt />
                     <a href=" https://www.h35.tw/admin/test/login.php" target="_blank">網頁製作</a>
                 </div> -->
-                <script src="js/AddressSelectList.js"></script>
-                <script type="text/javascript">
-                    window.onload = function() {
-                        AddressSeleclList.Initialize('selectcity', 'selectarea')
-                    }
-                </script>
-                <!-- 公版結束 -->
-                <script type="text/javascript" src="js/form.js?v3"></script>
             </div>
 
         </main>
@@ -650,7 +632,7 @@ window.dotq.push(
                 <div @click="switchStatus('footer', false)">點擊縮小</div>
             </div> -->
             <div class="mobile-nav on" v-if="isMobile">
-                <a class="nav-item" @click="showCallDialog()">
+                <a class="nav-item" @click="showCallDialog">
                     <i class="fas fa-phone"></i>
                     <div class="label">撥打電話</div>
                 </a>
@@ -659,79 +641,57 @@ window.dotq.push(
                     <i class="fas fa-pen"></i>
                     <div class="label">預約賞屋</div>
                 </a>
-                <a class="nav-item" @click="showMessengerDialog()">
+                <a class="nav-item" @click="showMessengerDialog">
                     <i class="fab fa-facebook-messenger"></i>
                     <div class="label">FB諮詢</div>
                 </a>
-                <a class="nav-item" @click="showMapDialog()">
+                <a class="nav-item" @click="showMapDialog">
                     <i class="fas fa-map-marker-alt"></i>
                     <div class="label">地圖導航</div>
                 </a>
                 <div class="dialog call-dialog">
                     <div class="dialog-content">
-                        <i class="fas fa-times" @click="hideCallDialog()"></i>
+                        <i class="fas fa-times" @click="hideCallDialog"></i>
                         <i class="fas fa-phone"></i>
                         <div class="dialog-desc">賞屋專線</div>
                         <div class="info">02-2293-1666</div>
-                        <div class="cta" @click="callAndRedirectToThanks()">撥打電話</div>
+                        <div class="cta" @click="callAndRedirectToThanks">撥打電話</div>
                     </div>
                 </div>
                 <div class="dialog messenger-dialog">
                     <div class="dialog-content">
-                        <i class="fas fa-times" @click="hideMessengerDialog()"></i>
+                        <i class="fas fa-times" @click="hideMessengerDialog"></i>
                         <i class="fab fa-facebook-messenger"></i>
                         <div class="dialog-desc">FB Messenger</div>
                         <div class="info">線上諮詢</div>
-                        <a class="cta" href="https://m.me/2066330633489731" target="_blank" @click="window.dotq = window.dotq || [];
-
-window.dotq.push(
-
-{
-
-  'projectId': '10000',
-
-  'properties': {
-
-    'pixelId': '10084299',
-
-    'qstrings': {
-
-      'et': 'custom',
-
-      'ea': 'FB10084299'
-
-    }
-
-} } );">立即諮詢</a>
+                        <a class="cta" href="https://m.me/2066330633489731" target="_blank" @click="window.dotq = window.dotq || [];window.dotq.push({
+                            'projectId': '10000',
+                            'properties': {
+                                'pixelId': '10084299',
+                                'qstrings': {
+                                    'et': 'custom',
+                                    'ea': 'FB10084299'
+                                }
+                            }
+                        });">立即諮詢</a>
                     </div>
                 </div>
                 <div class="dialog map-dialog">
                     <div class="dialog-content">
-                        <i class="fas fa-times" @click="hideMapDialog()"></i>
+                        <i class="fas fa-times" @click="hideMapDialog"></i>
                         <i class="fas fa-map-marker-alt"></i>
                         <div class="dialog-desc">接待會館</div>
                         <div class="info">新北市五股區新五路二段558號旁</div>
-                        <a class="cta" href="https://goo.gl/maps/md3qUjA8GZr4WwGK6" target="_blank" @click="window.dotq = window.dotq || [];
-
-window.dotq.push(
-
-{
-
-  'projectId': '10000',
-
-  'properties': {
-
-    'pixelId': '10084299',
-
-    'qstrings': {
-
-      'et': 'custom',
-
-      'ea': 'map10084299'
-
-    }
-
-} } );">開啟導航</a>
+                        <a class="cta" href="https://goo.gl/maps/md3qUjA8GZr4WwGK6" target="_blank" @click="window.dotq = window.dotq || [];window.dotq.push({
+                            'projectId': '10000',
+                            'properties': {
+                                'pixelId': '10084299',
+                                'qstrings': {
+                                    'et': 'custom',
+                                    'ea': 'map10084299'
+                                }
+                            }
+                        });">開啟導航</a>
                     </div>
                 </div>
             </div>
@@ -828,7 +788,6 @@ window.dotq.push(
                 </div>
             </div>
         </transition>
-
 
         <transition name="fade">
             <div id="modal_newsModal" class="modal modal-newsModal" :class="{on: status.newsModal}" v-if="status.newsModal">
@@ -976,7 +935,22 @@ window.dotq.push(
         </transition>
 
     </div>
-    <?php include_once 'incl/script.php'; ?>
+    <?php
+    // include_once 'incl/script.php'; 
+    ?>
+    <?php
+    echo "\t\t";
+    getUpdatedHtmlTag(['js/main.js', 'js/main.js']);
+    ?>
+    <script src="js/AddressSelectList.js"></script>
+    <script type="text/javascript">
+        window.onload = function() {
+            AddressSeleclList.Initialize('selectcity', 'selectarea')
+        }
+    </script>
+    <!-- 公版結束 -->
+    <script type="text/javascript" src="js/form.js?v3"></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script>
         $.fn.inView = function() {
             var elementTop = $(this).offset().top;
@@ -997,53 +971,51 @@ window.dotq.push(
             );
         };
 
-        if (isMobile) {
-            $(window).on('scroll', function() {
-                const section_list = [
-                    '#kv', // 1
-                    '#kv2',
-                    '#section-p2',
-                    '#section-p3',
-                    '#section-p4',
-                    '#section-p5',
-                    '#section-p6',
-                    '#section-p7',
-                    '#section-p8',
-                    '#section-p9',
-                    '#section-p10', // 11
-                ]
-                // var e = t.findIndex(function(e) {
-                //                 return $(document).scrollTop() + 100 <= e
-                //             }) - 1;
-                //             $("a[href^='#sec']").each(function(t, n) {
-                //                 t == e ? $(n).find("div").addClass("bg-white") : $(n).find("div").removeClass("bg-white")
-                //             })
-                section_list.forEach((section, index) => {
-                    if ($(section).inView()) {
-                        // if (!$('.dot').hasClass('active')) {
+        $(window).on('scroll', function() {
+            const section_list = [
+                '#kv', // 1
+                '#kv2',
+                '#section-p2',
+                '#section-p3',
+                '#section-p4',
+                '#section-p5',
+                '#section-p6',
+                '#section-p7',
+                '#section-p8',
+                '#section-p9',
+                '#section-p10', // 11
+            ]
+            // var e = t.findIndex(function(e) {
+            //                 return $(document).scrollTop() + 100 <= e
+            //             }) - 1;
+            //             $("a[href^='#sec']").each(function(t, n) {
+            //                 t == e ? $(n).find("div").addClass("bg-white") : $(n).find("div").removeClass("bg-white")
+            //             })
+            section_list.forEach((section, index) => {
+                if ($(section).inView()) {
+                    // if (!$('.dot').hasClass('active')) {
 
-                        // } else {
-                        //     if (index == 10) {
-                        //         $(`#dot-${index + 1}`).addClass('active')
-                        //     }
-                        // }
-                        $(`#dot-${index + 1}`).addClass('active')
-                        // $(`#dot-${index + 1}`).addClass('active')
-                        // if (section == '#kv2') {
-                        //     $('#kv').addClass('out').removeClass('on')
-                        // }
-                        $(section).addClass('on').removeClass('out')
+                    // } else {
+                    //     if (index == 10) {
+                    //         $(`#dot-${index + 1}`).addClass('active')
+                    //     }
+                    // }
+                    $(`#dot-${index + 1}`).addClass('active')
+                    // $(`#dot-${index + 1}`).addClass('active')
+                    // if (section == '#kv2') {
+                    //     $('#kv').addClass('out').removeClass('on')
+                    // }
+                    $(section).addClass('on').removeClass('out')
 
-                    } else {
-                        $(`#dot-${index}`).removeClass('active')
-                        $(`#dot-${index + 1}`).removeClass('active')
-                        $(section).addClass('out').removeClass('on')
-                    }
-                })
+                } else {
+                    $(`#dot-${index}`).removeClass('active')
+                    $(`#dot-${index + 1}`).removeClass('active')
+                    $(section).addClass('out').removeClass('on')
+                }
+            })
 
 
-            });
-        }
+        });
     </script>
 </body>
 

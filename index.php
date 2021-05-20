@@ -538,7 +538,6 @@ if ($TryStrpos === false) {
                                     立即預約
                                 </a>
                             </div>
-                            <script type="text/javascript" src="js/form.js?v3"></script>
                         </div>
                         <div class="contact-info section section-contact" id="section-p10">
                             <img class="logo" src="css/template/logo.png" alt />
@@ -632,144 +631,6 @@ window.dotq.push(
                     <img src="./img/footerLogo.png?v1" alt />
                     <a href=" https://www.h35.tw/admin/test/login.php" target="_blank">網頁製作</a>
                 </div> -->
-                <script type="text/javascript">
-                    var mobiles = new Array(
-                        "midp", "j2me", "avant", "docomo", "novarra", "palmos", "palmsource",
-                        "240x320", "opwv", "chtml", "pda", "windows ce", "mmp/",
-                        "blackberry", "mib/", "symbian", "wireless", "nokia", "hand", "mobi",
-                        "phone", "cdm", "up.b", "audio", "sie-", "sec-", "samsung", "htc",
-                        "mot-", "mitsu", "sagem", "sony", "alcatel", "lg", "eric", "vx",
-                        "NEC", "philips", "mmm", "xx", "panasonic", "sharp", "wap", "sch",
-                        "rover", "pocket", "benq", "java", "pt", "pg", "vox", "amoi",
-                        "bird", "compal", "kg", "voda", "sany", "kdd", "dbt", "sendo",
-                        "sgh", "gradi", "jb", "dddi", "moto", "iphone", "android",
-                        "iPod", "incognito", "webmate", "dream", "cupcake", "webos",
-                        "s8000", "bada", "googlebot-mobile"
-                    )
-                    var ua = navigator.userAgent.toLowerCase();
-
-                    var isMobile = false;
-
-                    for (var i = 0; i < mobiles.length; i++) {
-                        if (ua.indexOf(mobiles[i]) > 0) {
-                            isMobile = true;
-                            break;
-                        }
-                    }
-                    const callAndRedirectToThanks = () => {
-                        // document.location.href = 'tel:22931666';
-                        window.dotq = window.dotq || [];
-
-                        window.dotq.push(
-
-                            {
-
-                                'projectId': '10000',
-
-                                'properties': {
-
-                                    'pixelId': '10084299',
-
-                                    'qstrings': {
-
-                                        'et': 'custom',
-
-                                        'ea': 'call10084299'
-
-                                    }
-
-                                }
-                            });
-                        window.location.href = "call.php";
-                        // 跳轉感謝頁
-                    }
-
-                    const showCallDialog = () => {
-                        if (!isMobile) {
-                            return
-                        }
-                        $('.call-dialog').addClass('show')
-                        $('.mobile-nav').addClass('on')
-                    }
-
-                    const hideCallDialog = () => {
-                        $('.call-dialog').removeClass('show')
-                        // $('.mobile-nav').removeClass('on')
-                    }
-
-                    const showMessengerDialog = () => {
-                        if (!isMobile) {
-                            window.dotq = window.dotq || [];
-
-                            window.dotq.push(
-
-                                {
-
-                                    'projectId': '10000',
-
-                                    'properties': {
-
-                                        'pixelId': '10084299',
-
-                                        'qstrings': {
-
-                                            'et': 'custom',
-
-                                            'ea': 'FB10084299'
-
-                                        }
-
-                                    }
-                                });
-
-                            window.open('https://m.me/2066330633489731')
-                            return
-                        }
-                        $('.messenger-dialog').addClass('show')
-                        $('.mobile-nav').addClass('on')
-                    }
-
-                    const hideMessengerDialog = () => {
-                        $('.messenger-dialog').removeClass('show')
-                        // $('.mobile-nav').removeClass('on')
-                    }
-
-                    const showMapDialog = () => {
-                        if (!isMobile) {
-                            window.dotq = window.dotq || [];
-
-                            window.dotq.push(
-
-                                {
-
-                                    'projectId': '10000',
-
-                                    'properties': {
-
-                                        'pixelId': '10084299',
-
-                                        'qstrings': {
-
-                                            'et': 'custom',
-
-                                            'ea': 'map10084299'
-
-                                        }
-
-                                    }
-                                });
-                            window.open('https://goo.gl/maps/md3qUjA8GZr4WwGK6')
-                            return
-                        }
-                        $('.map-dialog').addClass('show')
-                        $('.mobile-nav').addClass('on')
-                    }
-
-                    const hideMapDialog = () => {
-                        $('.map-dialog').removeClass('show')
-                        // $('.mobile-nav').removeClass('on')
-                    }
-                </script>
                 <script src="js/AddressSelectList.js"></script>
                 <script type="text/javascript">
                     window.onload = function() {
@@ -777,6 +638,7 @@ window.dotq.push(
                     }
                 </script>
                 <!-- 公版結束 -->
+                <script type="text/javascript" src="js/form.js?v3"></script>
             </div>
 
         </main>
@@ -876,7 +738,7 @@ window.dotq.push(
             <!-- <span class="footer_span"><span class="text-highlight">正義聯盟</span> | GO 超移居計畫搶先劃位 02-2293-1666</span> -->
         </footer>
 
-        <transition name="bounce">
+        <!-- <transition name="bounce">
             <div id="modal_reservation" key="s" class="modal modal-reservation" v-show="status.reservation">
                 <div class="modal_container">
                     <h2 class="modal_title">預約賞屋</h2>
@@ -939,7 +801,6 @@ window.dotq.push(
                                 <a href="javascript:SendScore();" class="btn clr:primary" id="form-submit">
                                     立即預約
                                 </a>
-                                <!-- <button class="btn clr:primary" @click="send" :disabled="!status.usableSubmit" aria-label="立即預約">立即預約</button> -->
                             </div>
                         </div>
                     </div>
@@ -948,7 +809,7 @@ window.dotq.push(
                     </div>
                 </div>
             </div>
-        </transition>
+        </transition> -->
 
         <transition name="bounce">
             <div id="modal_messages" class="modal modal-messages" v-if="status.messagesModal">
@@ -1136,52 +997,53 @@ window.dotq.push(
             );
         };
 
+        if (isMobile) {
+            $(window).on('scroll', function() {
+                const section_list = [
+                    '#kv', // 1
+                    '#kv2',
+                    '#section-p2',
+                    '#section-p3',
+                    '#section-p4',
+                    '#section-p5',
+                    '#section-p6',
+                    '#section-p7',
+                    '#section-p8',
+                    '#section-p9',
+                    '#section-p10', // 11
+                ]
+                // var e = t.findIndex(function(e) {
+                //                 return $(document).scrollTop() + 100 <= e
+                //             }) - 1;
+                //             $("a[href^='#sec']").each(function(t, n) {
+                //                 t == e ? $(n).find("div").addClass("bg-white") : $(n).find("div").removeClass("bg-white")
+                //             })
+                section_list.forEach((section, index) => {
+                    if ($(section).inView()) {
+                        // if (!$('.dot').hasClass('active')) {
 
-        $(window).on('scroll', function() {
-            const section_list = [
-                '#kv', // 1
-                '#kv2',
-                '#section-p2',
-                '#section-p3',
-                '#section-p4',
-                '#section-p5',
-                '#section-p6',
-                '#section-p7',
-                '#section-p8',
-                '#section-p9',
-                '#section-p10', // 11
-            ]
-            // var e = t.findIndex(function(e) {
-            //                 return $(document).scrollTop() + 100 <= e
-            //             }) - 1;
-            //             $("a[href^='#sec']").each(function(t, n) {
-            //                 t == e ? $(n).find("div").addClass("bg-white") : $(n).find("div").removeClass("bg-white")
-            //             })
-            section_list.forEach((section, index) => {
-                if ($(section).inView()) {
-                    // if (!$('.dot').hasClass('active')) {
+                        // } else {
+                        //     if (index == 10) {
+                        //         $(`#dot-${index + 1}`).addClass('active')
+                        //     }
+                        // }
+                        $(`#dot-${index + 1}`).addClass('active')
+                        // $(`#dot-${index + 1}`).addClass('active')
+                        // if (section == '#kv2') {
+                        //     $('#kv').addClass('out').removeClass('on')
+                        // }
+                        $(section).addClass('on').removeClass('out')
 
-                    // } else {
-                    //     if (index == 10) {
-                    //         $(`#dot-${index + 1}`).addClass('active')
-                    //     }
-                    // }
-                    $(`#dot-${index + 1}`).addClass('active')
-                    // $(`#dot-${index + 1}`).addClass('active')
-                    // if (section == '#kv2') {
-                    //     $('#kv').addClass('out').removeClass('on')
-                    // }
-                    $(section).addClass('on').removeClass('out')
-
-                } else {
-                    $(`#dot-${index}`).removeClass('active')
-                    $(`#dot-${index + 1}`).removeClass('active')
-                    $(section).addClass('out').removeClass('on')
-                }
-            })
+                    } else {
+                        $(`#dot-${index}`).removeClass('active')
+                        $(`#dot-${index + 1}`).removeClass('active')
+                        $(section).addClass('out').removeClass('on')
+                    }
+                })
 
 
-        });
+            });
+        }
     </script>
 </body>
 

@@ -10,7 +10,7 @@ var regexer = {
 	url: /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/,
 	email: /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/,
 	phone: /[0-9|\-|\(|\)]{7,}/
-};
+}
 
 var mobiles = new Array(
 	'midp',
@@ -89,44 +89,44 @@ var mobiles = new Array(
 	's8000',
 	'bada',
 	'googlebot-mobile'
-);
-var ua = navigator.userAgent.toLowerCase();
+)
+var ua = navigator.userAgent.toLowerCase()
 
-var isMobile = false;
+var isMobile = false
 
 for (var i = 0; i < mobiles.length; i++) {
 	if (ua.indexOf(mobiles[i]) > 0) {
-		isMobile = true;
-		break;
+		isMobile = true
+		break
 	}
 }
 
-var secObj = {};
+var secObj = {}
 if (isMobile) {
 	secObj.kv1 = {
 		page: 1,
 		name: 'kv'
-	};
+	}
 	secObj.kv2 = {
 		page: 1,
 		name: 'kv2'
-	};
+	}
 	secObj.p1 = {
 		page: 2,
 		name: 'youtube-video'
-	};
+	}
 	secObj.p2 = {
 		page: 3,
 		name: 'livable'
-	};
+	}
 	secObj.p3 = {
 		page: 4,
 		name: 'speed'
-	};
+	}
 	secObj.p4 = {
 		page: 5,
 		name: 'monster'
-	};
+	}
 	// secObj.p5 = {
 	// 	page: 6,
 	// 	name: 'cubespace'
@@ -134,46 +134,46 @@ if (isMobile) {
 	secObj.p5 = {
 		page: 6,
 		name: 'greensea'
-	};
+	}
 	secObj.p6 = {
 		page: 7,
 		name: 'team'
-	};
+	}
 
 	secObj.p7 = {
 		page: 8,
 		name: 'intro'
-	};
+	}
 
 	secObj.p8 = {
 		page: 9,
 		name: 'contact'
-	};
+	}
 } else {
 	secObj.kv1 = {
 		page: 1,
 		name: 'kv'
-	};
+	}
 	secObj.kv2 = {
 		page: 1,
 		name: 'kv2'
-	};
+	}
 	secObj.p1 = {
 		page: 2,
 		name: 'youtube-video'
-	};
+	}
 	secObj.p2 = {
 		page: 3,
 		name: 'livable'
-	};
+	}
 	secObj.p3 = {
 		page: 4,
 		name: 'speed'
-	};
+	}
 	secObj.p4 = {
 		page: 5,
 		name: 'monster'
-	};
+	}
 	// secObj.p5 = {
 	// 	page: 6,
 	// 	name: 'cubespace'
@@ -181,37 +181,38 @@ if (isMobile) {
 	secObj.p5 = {
 		page: 6,
 		name: 'greensea'
-	};
+	}
 	secObj.p6 = {
 		page: 7,
 		name: 'team'
-	};
+	}
 
 	secObj.p7 = {
 		page: 8,
 		name: 'intro'
-	};
+	}
 
 	secObj.p8 = {
 		page: 9,
 		name: 'template'
-	};
+	}
 
 	secObj.p9 = {
 		page: 10,
 		name: 'contact'
-	};
+	}
 }
 
-var secArr = [];
+var secArr = []
 
-var windowHeight = 100;
-var windowWidth;
+var windowHeight = 100
+var windowWidth
 
 var vm = new Vue({
 	el: '#app',
 	data: function () {
 		return {
+			isMobile,
 			status: {
 				kv: true,
 				cover: true, // # 記得開啟
@@ -625,12 +626,12 @@ var vm = new Vue({
 				name: false,
 				phone: false
 			}
-		};
+		}
 	},
 
 	computed: {
 		modalStatus: function () {
-			var boolean = true;
+			var boolean = true
 
 			if (
 				this.status.reservation ||
@@ -641,85 +642,198 @@ var vm = new Vue({
 				this.status.newsModal ||
 				this.status.msgModal
 			) {
-				boolean = false;
+				boolean = false
 			}
 
-			return boolean;
+			return boolean
 		}
 	},
 
 	beforeMount: function () {
-		var that = this;
+		var that = this
 
 		$.get('js/zip.json', function (res) {
-			res = typeof res === 'object' ? res : JSON.parse(res);
-			that.area = res;
+			res = typeof res === 'object' ? res : JSON.parse(res)
+			that.area = res
 
-			that.form.city_id = Object.keys(that.area)[0];
-			that.form.district_id = Object.keys(that.area[that.form.city_id].district)[0];
-		});
+			that.form.city_id = Object.keys(that.area)[0]
+			that.form.district_id = Object.keys(that.area[that.form.city_id].district)[0]
+		})
 	},
 
 	methods: {
+		callAndRedirectToThanks: function (){
+			// document.location.href = 'tel:22931666';
+			window.dotq = window.dotq || []
+
+			window.dotq.push(
+
+				{
+
+					'projectId': '10000',
+
+					'properties': {
+
+						'pixelId': '10084299',
+
+						'qstrings': {
+
+							'et': 'custom',
+
+							'ea': 'call10084299'
+
+						}
+
+					}
+				})
+			window.location.href = "call.php"
+			// 跳轉感謝頁
+		},
+		
+		showCallDialog: function (){
+			if (!isMobile) {
+				return
+			}
+			$('.call-dialog').addClass('show')
+			$('.mobile-nav').addClass('on')
+		},
+		
+		hideCallDialog: function (){
+			$('.call-dialog').removeClass('show')
+			// $('.mobile-nav').removeClass('on')
+		},
+		
+		showMessengerDialog: function (){
+			if (!isMobile) {
+				window.dotq = window.dotq || []
+
+				window.dotq.push(
+
+					{
+
+						'projectId': '10000',
+
+						'properties': {
+
+							'pixelId': '10084299',
+
+							'qstrings': {
+
+								'et': 'custom',
+
+								'ea': 'FB10084299'
+
+							}
+
+						}
+					})
+
+				window.open('https://m.me/2066330633489731')
+				return
+			}
+			$('.messenger-dialog').addClass('show')
+			$('.mobile-nav').addClass('on')
+		},
+		
+		hideMessengerDialog: function (){
+			$('.messenger-dialog').removeClass('show')
+			// $('.mobile-nav').removeClass('on')
+		},
+		
+		showMapDialog: function (){
+			if (!isMobile) {
+				window.dotq = window.dotq || []
+
+				window.dotq.push(
+
+					{
+
+						'projectId': '10000',
+
+						'properties': {
+
+							'pixelId': '10084299',
+
+							'qstrings': {
+
+								'et': 'custom',
+
+								'ea': 'map10084299'
+
+							}
+
+						}
+					})
+				window.open('https://goo.gl/maps/md3qUjA8GZr4WwGK6')
+				return
+			}
+			$('.map-dialog').addClass('show')
+			$('.mobile-nav').addClass('on')
+		},
+
+		hideMapDialog: function () {
+			$('.map-dialog').removeClass('show')
+			// $('.mobile-nav').removeClass('on')
+		},
 		switchStatus: function (which, boolean) {
-			this.status[which] = boolean;
+			this.status[which] = boolean
 
 			if (which === 'livableModal' && boolean == false) {
-				$('.planet-sec .section_content').css('width', '100%');
-				$('.planet-sec .section_content .section_info').css('width', '100%');
+				$('.planet-sec .section_content').css('width', '100%')
+				$('.planet-sec .section_content .section_info').css('width', '100%')
 			}
 		},
 
 		switchSidemenuStatus: function () {
-			this.status.sidemenu = !this.status.sidemenu;
+			this.status.sidemenu = !this.status.sidemenu
 		},
 
 		closeModalMessages: function (stage) {
 			if (stage == 'done') {
-				this.status.reservation = false;
+				this.status.reservation = false
 			}
 
 			if (stage == 'again') {
-				this.status.reservation = true;
+				this.status.reservation = true
 			}
-			this.status.messagesModal = false;
+			this.status.messagesModal = false
 		},
 
 		setPageTransform: function (which) {
-			var that = this;
-			var unit = $('html').hasClass('ie') ? 'vh' : 'px';
-			this.status.intro = false;
+			var that = this
+			var unit = $('html').hasClass('ie') ? 'vh' : 'px'
+			this.status.intro = false
 
 			if (which !== 'cube') {
-				this.status.sidemenu = false;
+				this.status.sidemenu = false
 				secArr.forEach(function (el, index) {
 					if (el.type == which) {
-						that.status.cover = false;
-						that.page.nowPage = index;
+						that.status.cover = false
+						that.page.nowPage = index
 						// that.pageStyleObject.transform = 'translateY(-' + windowHeight * (el.page - 1) + unit + ')';
 					}
-				});
+				})
 			} else {
-				this.status.msgModal = true;
+				this.status.msgModal = true
 			}
 		},
 
 		// kv slideshow
 		setLoopSlide: function (which) {
-			var that = this;
+			var that = this
 
-			clearInterval(that.slideshow[which].time);
+			clearInterval(that.slideshow[which].time)
 
 			that.slideshow[which].time = setInterval(function () {
-				that.slideshow[which].active++;
+				that.slideshow[which].active++
 				if (that.slideshow[which].active > that.slideshow[which].items.length - 1) {
-					that.slideshow[which].active = 0;
+					that.slideshow[which].active = 0
 				}
-			}, that.slideshow[which].sec);
+			}, that.slideshow[which].sec)
 		},
 
 		send: function () {
-			var that = this;
+			var that = this
 
 			$.ajax({
 				url: 'api.php',
@@ -730,10 +844,10 @@ var vm = new Vue({
 				},
 
 				error: function (xhr, ajaxOptions, thrownError) {
-					that.status.reservation = false;
-					that.status.formSent = false;
-					that.status.messagesModal = true;
-					console.log(xhr.responseText);
+					that.status.reservation = false
+					that.status.formSent = false
+					that.status.messagesModal = true
+					console.log(xhr.responseText)
 				},
 
 				success: function (res) {
@@ -750,101 +864,101 @@ var vm = new Vue({
 							booking: 0,
 							note: '',
 							agree: true
-						};
+						}
 
-						that.status.formSent = true;
-						that.status.reservation = false;
-						that.status.messagesModal = true;
-						that.form.city_id = Object.keys(that.area)[0];
-						that.form.district_id = Object.keys(that.area[that.form.city_id].district)[0];
+						that.status.formSent = true
+						that.status.reservation = false
+						that.status.messagesModal = true
+						that.form.city_id = Object.keys(that.area)[0]
+						that.form.district_id = Object.keys(that.area[that.form.city_id].district)[0]
 					}
 				}
-			});
+			})
 		},
 
 		validator: function () {
-			var that = this;
-			var verified = false;
+			var that = this
+			var verified = false
 
 			$.each(that.validation, function (index, value) {
-				var checked = that.form[index] && that.validationRules[index].test(that.form[index]);
+				var checked = that.form[index] && that.validationRules[index].test(that.form[index])
 
-				that.validation[index] = checked;
-				that.hasError[index] = !checked;
-			});
+				that.validation[index] = checked
+				that.hasError[index] = !checked
+			})
 
 			$.each(that.validation, function (index, value) {
-				verified = true;
+				verified = true
 
 				if (!value) {
-					verified = false;
-					return false;
+					verified = false
+					return false
 				}
-			});
+			})
 
 			if (!that.form.agree) {
-				verified = false;
+				verified = false
 			}
 
-			that.status.usableSubmit = verified;
+			that.status.usableSubmit = verified
 		},
 
 		updateDistrict: function (cid) {
-			this.form.district_id = Object.keys(this.area[cid].district)[0];
+			this.form.district_id = Object.keys(this.area[cid].district)[0]
 		},
 
 		triggerTeamModal: function (which) {
-			this.status.teamModal = true;
-			var key = parseInt(this.team[which].active) - 1;
+			this.status.teamModal = true
+			var key = parseInt(this.team[which].active) - 1
 
-			this.team.use = objectDeepCopy(this.team[which].works[key]);
-			this.team.use.style = this.team[which].style;
-			this.team.use.name = this.team[which].name;
-			this.team.use.which = which;
+			this.team.use = objectDeepCopy(this.team[which].works[key])
+			this.team.use.style = this.team[which].style
+			this.team.use.name = this.team[which].name
+			this.team.use.which = which
 		},
 
 		triggerLeafletsModal: function (index) {
-			this.status.leafletsModal = true;
-			this.leaflets.use = this.leaflets.items[index];
+			this.status.leafletsModal = true
+			this.leaflets.use = this.leaflets.items[index]
 		},
 
 		nextTeamModal: function () {
-			var which = this.team.use.which;
-			var json = this.team[which].works;
+			var which = this.team.use.which
+			var json = this.team[which].works
 
-			this.team[which].active = this.team[which].active + 1;
+			this.team[which].active = this.team[which].active + 1
 			if (this.team[which].active > json.length) {
-				this.team[which].active = 1;
+				this.team[which].active = 1
 			}
 
-			this.triggerTeamModal(which);
+			this.triggerTeamModal(which)
 		},
 
 		prevTeamModal: function () {
-			var which = this.team.use.which;
-			var json = this.team[which].works;
+			var which = this.team.use.which
+			var json = this.team[which].works
 
-			this.team[which].active = this.team[which].active - 1;
+			this.team[which].active = this.team[which].active - 1
 			if (this.team[which].active <= 0) {
-				this.team[which].active = json.length;
+				this.team[which].active = json.length
 			}
 
-			this.triggerTeamModal(which);
+			this.triggerTeamModal(which)
 		},
 
 		setVideoActive: function (key) {
 			if (this.videos.active > key) {
-				$('.youtube-video .slide_prev').trigger('click');
+				$('.youtube-video .slide_prev').trigger('click')
 			} else {
-				$('.youtube-video .slide_next').trigger('click');
+				$('.youtube-video .slide_next').trigger('click')
 			}
 
-			this.videos.active = key;
+			this.videos.active = key
 		},
 
 		setPage: function (dot) {
 			if (dot == 'cube') {
-				this.status.msgModal = true;
+				this.status.msgModal = true
 				return
 			}
 			if ($(`#${dot}`).hasClass('click-active')) {
@@ -860,13 +974,13 @@ var vm = new Vue({
 
 	created: function () {
 		// 處理 secObj 為陣列
-		getSectionPos();
+		getSectionPos()
 		// this.setPageTransform('p4');
 	},
 
 	watch: {
 		'page.nowPage': function (val) {
-			setPageAnimatClass(val);
+			setPageAnimatClass(val)
 
 			// if (val === 0 || val === 1 || val === 6 || val === 7) {
 			// 	this.status.footer = true;
@@ -875,7 +989,7 @@ var vm = new Vue({
 			// }
 
 			if (val === 1) {
-				compass();
+				compass()
 			}
 
 			// if (val === 4) {
@@ -887,35 +1001,35 @@ var vm = new Vue({
 		},
 		'form.agree': function (val) {
 			if (!val) {
-				this.status.usableSubmit = false;
+				this.status.usableSubmit = false
 			} else {
-				this.validator();
+				this.validator()
 			}
 		},
 		'status.intro': function (val) {
 			if (!val) {
-				this.status.pageScroll = true;
+				this.status.pageScroll = true
 			}
 		},
 		'status.livableModal': function (val) {
-			viewportDetect('#modal_livable .modal_container');
+			viewportDetect('#modal_livable .modal_container')
 		},
 		'status.leafletsModal': function (val) {
-			viewportDetect('#modal_leaflets .modal_container');
+			viewportDetect('#modal_leaflets .modal_container')
 		}
 	},
 	mounted: function () {
-		$('body').addClass('loaded');
+		$('body').addClass('loaded')
 
 		// autoplay loop slide
 		// this.setLoopSlide('livable');
-		this.setLoopSlide('monster');
-		this.setLoopSlide('greensea');
+		this.setLoopSlide('monster')
+		this.setLoopSlide('greensea')
 		var kv2_1 = 0,
-			scrolv = $(window).scrollTop();
+			scrolv = $(window).scrollTop()
 		$(window).on("scroll resize", () => {
 			// compassNext();
-			compass();
+			compass()
 			if ($(window).scrollTop() > 30 && $(window).scrollTop() < $("#kv2").offset().top - 30) {
 				$('#kv').addClass('out').removeClass('on')
 				// $('.prelude_bg').css( "bottom", ($(window).scrollTop() - 114) )
@@ -935,43 +1049,43 @@ var vm = new Vue({
 				// }
 				// scrolv = $(window).scrollTop();
 			} else if ($(window).scrollTop() >= $("#kv2").offset().top - 20 && kv2_1 != 1) {
-				compassNext();
-				compass();
-				kv2_1 = 1;
+				compassNext()
+				compass()
+				kv2_1 = 1
 			}
-		});
+		})
 	}
-});
+})
 
 function preventIphoneScale() {
 	document.addEventListener(
 		'touchstart',
 		function (event) {
 			if (event.touches.length > 1) {
-				event.preventDefault();
+				event.preventDefault()
 			}
 		},
 		{ passive: false }
-	);
-	var lastTouchEnd = 0;
+	)
+	var lastTouchEnd = 0
 	document.addEventListener(
 		'touchend',
 		function (event) {
-			var now = new Date().getTime();
+			var now = new Date().getTime()
 			if (now - lastTouchEnd <= 300) {
-				event.preventDefault();
+				event.preventDefault()
 			}
-			lastTouchEnd = now;
+			lastTouchEnd = now
 		},
 		{ passive: false }
-	);
+	)
 	document.addEventListener(
 		'gesturestart',
 		function (event) {
-			event.preventDefault();
+			event.preventDefault()
 		},
 		{ passive: false }
-	);
+	)
 }
 
 // ------ 頁面滾動邏輯 -------- //
@@ -980,72 +1094,72 @@ function setJsKeyup() {
 	$(document).on('keyup', function (e) {
 		switch (event.keyCode) {
 			case 38:
-				goTriggerPage('up');
-				break;
+				goTriggerPage('up')
+				break
 			case 40:
-				goTriggerPage('down');
-				break;
+				goTriggerPage('down')
+				break
 		}
-	});
+	})
 }
 
 // 偵測手機版觸控的方向
 function setJsTouch() {
-	var ts, te;
-	var wHeight = 150;
+	var ts, te
+	var wHeight = 150
 	$(document).on('touchstart', function (e) {
-		console.log('true');
-		ts = e.originalEvent.touches[0].clientY;
-	});
+		console.log('true')
+		ts = e.originalEvent.touches[0].clientY
+	})
 
 	$(document).on('touchend', function (e) {
-		te = e.originalEvent.changedTouches[0].clientY;
+		te = e.originalEvent.changedTouches[0].clientY
 		if (wHeight < Math.abs(ts - te)) {
 			if (ts > te) {
-				goTriggerPage('down');
+				goTriggerPage('down')
 			} else {
-				goTriggerPage('up');
+				goTriggerPage('up')
 			}
 		}
-	});
+	})
 }
 
 // 偵測桌機的滾軸, 觸控板的移動方向
 function setJsMousewheel() {
 	console.log('set')
-	$(document).off('mousewheel DOMMouseScroll');
+	$(document).off('mousewheel DOMMouseScroll')
 	$(document).on('mousewheel DOMMouseScroll', function (e) {
 		var delta =
 			(e.originalEvent.wheelDelta && (e.originalEvent.wheelDelta > 0 ? 1 : -1)) || // chrome & ie
-			(e.originalEvent.detail && (e.originalEvent.detail > 0 ? -1 : 1)); // firefox
+			(e.originalEvent.detail && (e.originalEvent.detail > 0 ? -1 : 1)) // firefox
 
-		var timer;
+		var timer
 
-		$(document).off('mousewheel DOMMouseScroll');
+		$(document).off('mousewheel DOMMouseScroll')
 		if (delta > 0) {
-			goTriggerPage('up');
+			goTriggerPage('up')
 		} else if (delta < 0) {
-			goTriggerPage('down');
+			goTriggerPage('down')
 		}
 
 		timer = setTimeout(function () {
-			setJsMousewheel();
-			clearTimeout(timer);
-		}, 1300);
-	});
+			setJsMousewheel()
+			clearTimeout(timer)
+		}, 1300)
+	})
 }
 
 // 頁面 鍵盤, 觸控板, 滾輪滑動, 觸發頁面滾動
 function goTriggerPage(dir) {
-	var nowPage = vm.page.nowPage;
-	var unit = $('html').hasClass('ie') ? 'vh' : 'px';
+	var nowPage = vm.page.nowPage
+	var unit = $('html').hasClass('ie') ? 'vh' : 'px'
 
 	// modal open , cover open 禁滑動
 	if (vm.modalStatus && !vm.status.cover && !vm.status.sidemenu && vm.status.pageScroll && !vm.status.intro) {
 		if (dir === 'up') {
-			nowPage = nowPage - 1;
+			nowPage = nowPage - 1
 			if (nowPage < 1) {
-				nowPage = 0;
+				nowPage = 0
 			}
 			// if (nowPage >= secArr.length) {
 			// 	$(document).off('mousewheel DOMMouseScroll');
@@ -1053,189 +1167,189 @@ function goTriggerPage(dir) {
 		}
 
 		if (dir === 'down') {
-			nowPage = nowPage + 1;
+			nowPage = nowPage + 1
 			if (nowPage >= secArr.length) {
 				// $('body').removeClass('stop-scroll');
 				// $(document).off('mousewheel DOMMouseScroll');
-				nowPage = secArr.length - 1;
+				nowPage = secArr.length - 1
 			} else {
 				// $('body').addClass('stop-scroll');
 			}
 		}
 
-		vm.page.dir = dir;
-		vm.page.nowPage = nowPage;
+		vm.page.dir = dir
+		vm.page.nowPage = nowPage
 		// vm.pageStyleObject.transform = 'translateY(-' + windowHeight * (secArr[nowPage].page - 1) + unit + ')';
 	}
 }
 
 // mobile 瀏覽器 關閉觸控 reload
 function preventPullToRefresh(element) {
-	var prevent = false;
+	var prevent = false
 
 	document.querySelector(element).addEventListener('touchstart', function (e) {
 		if (e.touches.length !== 1) {
-			return;
+			return
 		}
 
-		var scrollY = window.pageYOffset || document.body.scrollTop || document.documentElement.scrollTop;
-		prevent = scrollY === 0;
-	});
+		var scrollY = window.pageYOffset || document.body.scrollTop || document.documentElement.scrollTop
+		prevent = scrollY === 0
+	})
 
 	document.querySelector(element).addEventListener('touchmove', function (e) {
 		if (prevent) {
-			prevent = false;
+			prevent = false
 			// e.preventDefault();
 		}
-	});
+	})
 }
 
-preventPullToRefresh('html');
+preventPullToRefresh('html')
 
 // ------ window function -------- //
 
 $(window)
 	.on('resize', function () {
-		windowWidth = $(window).width();
+		windowWidth = $(window).width()
 
 		if (windowWidth >= 992) {
-			vm.status.sidemenu = false;
-			vm.status.intro = false;
+			vm.status.sidemenu = false
+			vm.status.intro = false
 		}
 
 		// 偵測手機版高度
-		mobileFullHeight();
+		mobileFullHeight()
 		// 啟用滾軸
 		// setJsMousewheel();
 
-		vm.setPageTransform(secArr[vm.page.nowPage].type);
+		vm.setPageTransform(secArr[vm.page.nowPage].type)
 
-		var cubeslideTimer;
+		var cubeslideTimer
 		cubeslideTimer = setTimeout(function () {
 			$('.cubeslide').css({
 				'max-height': $('.cubeslide-active').height(),
 				height: 100 + '%'
-			});
+			})
 
 			$('.youtube-slideshow').css({
 				height: $('.video_item').height()
-			});
+			})
 
-			$('.cubeslide .slide_prev').css('left', 'calc(50% - ' + ($('.cubeslide-active').width() / 2 - 10) + 'px)');
-			$('.cubeslide .slide_next').css('right', 'calc(50% - ' + ($('.cubeslide-active').width() / 2 - 10) + 'px)');
+			$('.cubeslide .slide_prev').css('left', 'calc(50% - ' + ($('.cubeslide-active').width() / 2 - 10) + 'px)')
+			$('.cubeslide .slide_next').css('right', 'calc(50% - ' + ($('.cubeslide-active').width() / 2 - 10) + 'px)')
 
-			clearTimeout(cubeslideTimer);
-		}, 1000);
+			clearTimeout(cubeslideTimer)
+		}, 1000)
 	})
 	.on('load', function () {
 		// 偵測手機版高度
-		mobileFullHeight();
+		mobileFullHeight()
 		// 啟用滾軸與手勢, modal 開的時候
 		// setJsMousewheel();
-		setJsTouch();
-		setJsKeyup();
-		preventIphoneScale();
+		setJsTouch()
+		setJsKeyup()
+		preventIphoneScale()
 
-		var skipTimer;
+		var skipTimer
 
 		skipTimer = setTimeout(function () {
-			vm.status.cover = false;
-			$('.cover-kv').addClass('out');
-			clearTimeout(skipTimer);
-		}, 1000);
+			vm.status.cover = false
+			$('.cover-kv').addClass('out')
+			clearTimeout(skipTimer)
+		}, 1000)
 
 		$('.cubeslide').css({
 			'max-height': $('.cubeslide-active').height(),
 			height: 100 + '%'
-		});
+		})
 
 		$('.youtube-slideshow').css({
 			height: $('.video_item').height()
-		});
+		})
 
-		$('.cubeslide .slide_prev').css('left', 'calc(50% - ' + ($('.cubeslide-active').width() / 2 - 20) + 'px)');
-		$('.cubeslide .slide_next').css('right', 'calc(50% - ' + ($('.cubeslide-active').width() / 2 - 20) + 'px)');
-	});
+		$('.cubeslide .slide_prev').css('left', 'calc(50% - ' + ($('.cubeslide-active').width() / 2 - 20) + 'px)')
+		$('.cubeslide .slide_next').css('right', 'calc(50% - ' + ($('.cubeslide-active').width() / 2 - 20) + 'px)')
+	})
 
 $('.unscroll')
 	.on('mouseover', function (el) {
-		vm.status.pageScroll = false;
+		vm.status.pageScroll = false
 	})
 	.on('mouseout', function (el) {
-		vm.status.pageScroll = true;
-	});
+		vm.status.pageScroll = true
+	})
 
 // ------ 偵測手機版高度 -------- //
 function mobileFullHeight() {
-	var isIE = $('html').hasClass('ie');
+	var isIE = $('html').hasClass('ie')
 
 	if (!isIE) {
-		var vh = window.innerHeight * 0.01;
-		windowHeight = vh * 100;
-		document.documentElement.style.setProperty('--vh', vh + 'px');
+		var vh = window.innerHeight * 0.01
+		windowHeight = vh * 100
+		document.documentElement.style.setProperty('--vh', vh + 'px')
 	}
 }
 
 // ------ 深複製 obj -------- //
 function objectDeepCopy(obj) {
-	return typeof obj === 'object' && obj !== null ? JSON.parse(JSON.stringify(obj)) : false;
+	return typeof obj === 'object' && obj !== null ? JSON.parse(JSON.stringify(obj)) : false
 }
 
 // ------ page stage -------- //
 function goKV1Stage() {
-	$('.section-kv').addClass('on');
+	$('.section-kv').addClass('on')
 }
 
 // ------ Section Class: null on out -------- //
 function setPageAnimatClass(nowPage) {
-	var pageName = secArr[nowPage].name;
-	var dir = vm.page.dir;
-	var section = $('.section');
+	var pageName = secArr[nowPage].name
+	var dir = vm.page.dir
+	var section = $('.section')
 
-	var nowPage = vm.page.nowPage;
+	var nowPage = vm.page.nowPage
 
 	secArr.forEach(function (el, i) {
-		var pageName = secArr[i].name;
+		var pageName = secArr[i].name
 
 		if (i == nowPage) {
 			if (pageName !== 'kv2') {
 				$('.section-' + pageName)
 					.removeClass('out')
-					.addClass('on');
+					.addClass('on')
 			} else {
 				$('.section-kv')
 					.removeClass('on')
-					.addClass('out');
+					.addClass('out')
 			}
 		}
 
 		if (nowPage > 1) {
 			$('.section-kv')
 				.removeClass('on')
-				.addClass('out');
+				.addClass('out')
 		}
-	});
+	})
 }
 
 // ------ 處理 secObj 為陣列 -------- //
 function getSectionPos() {
-	secArr.length = 0;
+	secArr.length = 0
 	for (var key in secObj) {
 		secArr.push({
 			type: key,
 			page: secObj[key].page,
 			name: secObj[key].name
-		});
+		})
 	}
 }
 
 // compass
-var compassArr = [];
-var compassTimer;
+var compassArr = []
+var compassTimer
 
 $('.compass_item').each(function (i, el) {
-	compassArr.push($(el));
-});
+	compassArr.push($(el))
+})
 /*
 $(document).on('click', '.compass-slide-prev', function (e) {
 	compassPrev();
@@ -1245,38 +1359,38 @@ $(document).on('click', '.compass-slide-next', function (e) {
 	compassNext();
 });*/
 function compass() {
-	var $items = $('.compass_item');
+	var $items = $('.compass_item')
 	$items.removeClass(
 		'compass-slide-top compass-slide-prev compass-slide-active compass-slide-next compass-slide-bottom'
-	);
+	)
 
-	compassArr[compassArr.length - 1].addClass('compass-slide-prev');
-	compassArr[0].addClass('compass-slide-active');
-	compassArr[1].addClass('compass-slide-next');
-	compassArr[2].addClass('compass-slide-bottom');
-	compassArr[3].addClass('compass-slide-bottom');
-	compassArr[4].addClass('compass-slide-bottom');
-	compassArr[compassArr.length - 2].addClass('compass-slide-top');
+	compassArr[compassArr.length - 1].addClass('compass-slide-prev')
+	compassArr[0].addClass('compass-slide-active')
+	compassArr[1].addClass('compass-slide-next')
+	compassArr[2].addClass('compass-slide-bottom')
+	compassArr[3].addClass('compass-slide-bottom')
+	compassArr[4].addClass('compass-slide-bottom')
+	compassArr[compassArr.length - 2].addClass('compass-slide-top')
 
-	var itemIndex = $('.compass-slide-active').attr('data-compass-index');
-	vm.compass.use = vm.compass.swiper[itemIndex];
+	var itemIndex = $('.compass-slide-active').attr('data-compass-index')
+	vm.compass.use = vm.compass.swiper[itemIndex]
 
-	clearInterval(compassTimer);
+	clearInterval(compassTimer)
 	compassTimer = setInterval(function () {
-		compassNext();
-	}, 3000);
+		compassNext()
+	}, 3000)
 }
 
 function compassPrev() {
-	compassArr.unshift(compassArr[compassArr.length - 1]);
-	compassArr.pop();
-	compass();
+	compassArr.unshift(compassArr[compassArr.length - 1])
+	compassArr.pop()
+	compass()
 }
 
 function compassNext() {
-	compassArr.push(compassArr[0]);
-	compassArr.shift();
-	compass();
+	compassArr.push(compassArr[0])
+	compassArr.shift()
+	compass()
 }
 
 // cubeslide
@@ -1320,54 +1434,54 @@ function compassNext() {
 // });
 
 // video slide
-var videoArr = [];
+var videoArr = []
 
 $('.video_item').each(function (i, el) {
-	videoArr.push($(el));
-});
+	videoArr.push($(el))
+})
 
 function videoSlide() {
-	var $items = $('.video_item');
-	$items.removeClass('video-prev video-active video-next');
+	var $items = $('.video_item')
+	$items.removeClass('video-prev video-active video-next')
 
 	if (videoArr.length > 2) {
-		videoArr[videoArr.length - 1].addClass('video-prev');
-		videoArr[0].addClass('video-active');
-		videoArr[1].addClass('video-next');
+		videoArr[videoArr.length - 1].addClass('video-prev')
+		videoArr[0].addClass('video-active')
+		videoArr[1].addClass('video-next')
 
 		videoArr.forEach(function (el, i) {
 			if (i > 1 && i < videoArr.length - 1) {
-				$(el).addClass('video-next');
+				$(el).addClass('video-next')
 			}
-		});
+		})
 	} else {
-		videoArr[0].addClass('video-active');
+		videoArr[0].addClass('video-active')
 	}
 }
 
-videoSlide();
+videoSlide()
 
 $(document).on('click', '.youtube-video .slide_prev', function (e) {
-	videoArr.unshift(videoArr[videoArr.length - 1]);
-	videoArr.pop();
-	videoSlide();
+	videoArr.unshift(videoArr[videoArr.length - 1])
+	videoArr.pop()
+	videoSlide()
 
-	vm.videos.active = vm.videos.active - 1;
+	vm.videos.active = vm.videos.active - 1
 	if (vm.videos.active < 0) {
-		vm.videos.active = vm.videos.items.length - 1;
+		vm.videos.active = vm.videos.items.length - 1
 	}
-});
+})
 
 $(document).on('click', '.youtube-video .slide_next', function (e) {
-	videoArr.push(videoArr[0]);
-	videoArr.shift();
-	videoSlide();
+	videoArr.push(videoArr[0])
+	videoArr.shift()
+	videoSlide()
 
-	vm.videos.active = vm.videos.active + 1;
+	vm.videos.active = vm.videos.active + 1
 	if (vm.videos.active >= vm.videos.items.length) {
-		vm.videos.active = 0;
+		vm.videos.active = 0
 	}
-});
+})
 
 // -----------
 function viewportDetect(target) {
@@ -1379,100 +1493,100 @@ function viewportDetect(target) {
 		nowX = 0,
 		nowY = 0,
 		nowScale,
-		lastScale;
-	var start = [];
-	var $target = target;
+		lastScale
+	var start = []
+	var $target = target
 
 	$(document).on('touchstart', $target, function (e) {
-		pageX = e.targetTouches[0].pageX;
-		pageY = e.targetTouches[0].pageY;
-		initX = e.target.offsetLeft;
-		initY = e.target.offsetTop;
+		pageX = e.targetTouches[0].pageX
+		pageY = e.targetTouches[0].pageY
+		initX = e.target.offsetLeft
+		initY = e.target.offsetTop
 		if (e.touches.length >= 2) {
-			start = e.touches;
+			start = e.touches
 		}
-		isTouch = true;
-	});
+		isTouch = true
+	})
 
 	$(document).on('touchmove', $target, function (e) {
 		if (e.touches.length == 1 && isTouch) {
-			var $elWidth = e.target.offsetWidth;
-			var $elHeight = e.target.offsetHeight;
-			var targetWidthSpace = ($elWidth * nowScale - $elWidth) / 2;
-			var targetHeightSpace = ($elHeight * nowScale - $elHeight) / 2;
+			var $elWidth = e.target.offsetWidth
+			var $elHeight = e.target.offsetHeight
+			var targetWidthSpace = ($elWidth * nowScale - $elWidth) / 2
+			var targetHeightSpace = ($elHeight * nowScale - $elHeight) / 2
 
 			var touchMoveX = e.targetTouches[0].pageX,
-				touchMoveY = e.targetTouches[0].pageY;
+				touchMoveY = e.targetTouches[0].pageY
 
-			nowX = nowX + (parseInt(touchMoveX) - parseInt(pageX)) / 5;
-			nowY = nowY + (parseInt(touchMoveY) - parseInt(pageY)) / 5;
+			nowX = nowX + (parseInt(touchMoveX) - parseInt(pageX)) / 5
+			nowY = nowY + (parseInt(touchMoveY) - parseInt(pageY)) / 5
 
 			if (nowX > 0 && nowX > targetWidthSpace) {
-				nowX = targetWidthSpace;
+				nowX = targetWidthSpace
 			}
 
 			if (nowX < 0 && nowX < -targetWidthSpace) {
-				nowX = -targetWidthSpace;
+				nowX = -targetWidthSpace
 			}
 
 			if (nowY > 0 && nowY > targetHeightSpace) {
-				nowY = targetHeightSpace;
+				nowY = targetHeightSpace
 			}
 
 			if (nowY < 0 && nowY < -targetHeightSpace) {
-				nowY = -targetHeightSpace;
+				nowY = -targetHeightSpace
 			}
 
-			var addTouchMove;
+			var addTouchMove
 			if ($target.indexOf('leaflets') != -1) {
-				addTouchMove = 'translate(' + nowX + 'px, ' + nowY + 'px) scale(' + nowScale.toFixed(2) + ')';
+				addTouchMove = 'translate(' + nowX + 'px, ' + nowY + 'px) scale(' + nowScale.toFixed(2) + ')'
 			} else {
-				addTouchMove = 'translateX(' + nowX + 'px) scale(' + nowScale.toFixed(2) + ')';
+				addTouchMove = 'translateX(' + nowX + 'px) scale(' + nowScale.toFixed(2) + ')'
 			}
 
 			$(this).css({
 				transform: addTouchMove
-			});
+			})
 		}
 
 		if (e.touches.length >= 2 && isTouch) {
-			var now = e.touches;
-			lastScale = nowScale;
-			nowScale = getDistance(now[0], now[1]) / getDistance(start[0], start[1]);
+			var now = e.touches
+			lastScale = nowScale
+			nowScale = getDistance(now[0], now[1]) / getDistance(start[0], start[1])
 
 			if (nowScale < 1) {
-				nowScale = 1;
-				nowX = 0;
-				nowY = 0;
+				nowScale = 1
+				nowX = 0
+				nowY = 0
 			}
 
 			if (nowScale > 2) {
-				nowScale = 2;
+				nowScale = 2
 			}
 
-			var addScaleMove;
+			var addScaleMove
 			if ($target.indexOf('leaflets') != -1) {
-				addScaleMove = 'translate(' + nowX + 'px, ' + nowY + 'px) scale(' + nowScale.toFixed(2) + ')';
+				addScaleMove = 'translate(' + nowX + 'px, ' + nowY + 'px) scale(' + nowScale.toFixed(2) + ')'
 			} else {
-				addScaleMove = 'translateX(' + nowX + 'px) scale(' + nowScale.toFixed(2) + ')';
+				addScaleMove = 'translateX(' + nowX + 'px) scale(' + nowScale.toFixed(2) + ')'
 			}
 
 			$(this).css({
 				transform: addScaleMove
-			});
+			})
 		}
-	});
+	})
 
 	$(document).on('touchend', $target, function (e) {
 		if (isTouch) {
-			isTouch = false;
+			isTouch = false
 		}
-	});
+	})
 }
 
 //缩放 勾股定理方法
 function getDistance(p1, p2) {
 	var x = p2.pageX - p1.pageX,
-		y = p2.pageY - p1.pageY;
-	return Math.sqrt(x * x + y * y);
+		y = p2.pageY - p1.pageY
+	return Math.sqrt(x * x + y * y)
 }

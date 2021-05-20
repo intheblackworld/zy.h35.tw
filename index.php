@@ -30,15 +30,13 @@ if ($TryStrpos === false) {
 <html lang="<?= _LANG_; ?>" itemscope itemtype="http://schema.org/WebSite" xmlns:og="http://ogp.me/ns#" xmlns:fb="https://www.facebook.com/2008/fbml">
 
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <?php
-    include_once './head.php';
+    include_once 'incl/meta.php';
     // $city = $_POST['widget-contact-form-city'];
     // $area = $_POST['widget-contact-form-area'];
     ?>
     <!-- <title><?= _SITENAME_; ?></title> -->
-    
+
 
     <!-- house info -->
     <link href="css/template/contact-section.css?v1" rel="stylesheet" />
@@ -68,24 +66,44 @@ if ($TryStrpos === false) {
         })(window, document, 'script', 'dataLayer', 'GTM-WN5W6J2');
     </script>
     <!-- End Google Tag Manager -->
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-WPCLQ8N');</script>
-    <!-- End Google Tag Manager -->
-    <script type="application/javascript">(function(w,d,t,r,u){w[u]=w[u]||[];w[u].push({'projectId':'10000','properties':{'pixelId':'10084299'}});var s=d.createElement(t);s.src=r;s.async=true;s.onload=s.onreadystatechange=function(){var y,rs=this.readyState,c=w[u];if(rs&&rs!="complete"&&rs!="loaded"){return}try{y=YAHOO.ywa.I13N.fireBeacon;w[u]=[];w[u].push=function(p){y([p])};y(c)}catch(e){}};var scr=d.getElementsByTagName(t)[0],par=scr.parentNode;par.insertBefore(s,scr)})(window,document,"script","https://s.yimg.com/wi/ytc.js","dotq");</script>
+    <script type="application/javascript">
+        (function(w, d, t, r, u) {
+            w[u] = w[u] || [];
+            w[u].push({
+                'projectId': '10000',
+                'properties': {
+                    'pixelId': '10084299'
+                }
+            });
+            var s = d.createElement(t);
+            s.src = r;
+            s.async = true;
+            s.onload = s.onreadystatechange = function() {
+                var y, rs = this.readyState,
+                    c = w[u];
+                if (rs && rs != "complete" && rs != "loaded") {
+                    return
+                }
+                try {
+                    y = YAHOO.ywa.I13N.fireBeacon;
+                    w[u] = [];
+                    w[u].push = function(p) {
+                        y([p])
+                    };
+                    y(c)
+                } catch (e) {}
+            };
+            var scr = d.getElementsByTagName(t)[0],
+                par = scr.parentNode;
+            par.insertBefore(s, scr)
+        })(window, document, "script", "https://s.yimg.com/wi/ytc.js", "dotq");
+    </script>
 </head>
 
 <body class="stop-scroll">
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WN5W6J2" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
-    <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WPCLQ8N"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
     <div id="app">
 
         <header class="header">
@@ -515,7 +533,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                     <div style="color:#f00 !important;" id="msgerror" class="m-b-10"></div>
                                 </div>
                                 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-                            <div class="g-recaptcha"  style="width: 304px;margin: 0 auto;z-index:2;" data-sitekey="6Lep-78UAAAAAMaZLtddpvpixEb8cqu7v7758gLz"></div>
+                                <div class="g-recaptcha" style="width: 304px;margin: 0 auto;z-index:2;" data-sitekey="6Lep-78UAAAAAMaZLtddpvpixEb8cqu7v7758gLz"></div>
                                 <a href="javascript:SendScore();" class="form-submit" id="form-submit" style="display: flex;justify-content: center;align-items: center;">
                                     立即預約
                                 </a>

@@ -66,6 +66,25 @@ if ($TryStrpos === false) {
         })(window, document, 'script', 'dataLayer', 'GTM-WN5W6J2');
     </script>
     <!-- End Google Tag Manager -->
+    <!-- Google Tag Manager -->
+    <link rel="stylesheet" href="css/style.css?v=16">
+    <script>
+        (function(w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({
+                'gtm.start': new Date().getTime(),
+                event: 'gtm.js'
+            });
+            var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s),
+                dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src =
+                'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-WPCLQ8N');
+    </script>
+    <!-- End Google Tag Manager -->
     <script type="application/javascript">
         (function(w, d, t, r, u) {
             w[u] = w[u] || [];
@@ -103,6 +122,9 @@ if ($TryStrpos === false) {
 <body class="stop-scroll">
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WN5W6J2" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WPCLQ8N" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
     <?php
     echo "\t\t";
